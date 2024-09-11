@@ -1,6 +1,11 @@
 import { serve } from 'bun';
 import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
+import routesPages from './routes/pages';
+import routesApi from './routes/api';
+
+const PORT = 3000;
+
 
 // Initialize Hono app
 const app = new Hono();
@@ -8,11 +13,11 @@ const app = new Hono();
 // Serve public directory
 app.use('/public/*', serveStatic({ root: './' }));
 
-// Serve pages
-app.get('/', serveStatic({ path: './pages/index.html' }));
+// Serve routes
+app.route('/', routesPages);
+app.route('/api', routesApi);
 
-// Open on port
-serve({
+export default {
   fetch: app.fetch,
-  port: 3000,
-});
+  port: PORT,
+};
