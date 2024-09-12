@@ -1,9 +1,10 @@
 import { Hono } from "hono";
+import apiLeaderboard from "./api/leaderboard";
 
 
 // Define api routes
 const routesApi = new Hono()
-    .get('/test', (c) => c.text('Test api route'))
+    .route('/leaderboard', apiLeaderboard);
 
 
 export default routesApi;
