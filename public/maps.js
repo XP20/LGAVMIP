@@ -1,5 +1,5 @@
 function initialize() {
-  const fenway = { lat: 42.345573, lng: -71.098326 };
+  const fenway = { lat: 56.951941,  lng: 24.081368 };
   const map = new google.maps.Map(document.getElementById("map"), {
     center: fenway,
     zoom: 14,
@@ -9,7 +9,7 @@ function initialize() {
     {
       position: fenway,
       pov: {
-        heading: 34,
+        heading: 180,
         pitch: 10,
       },
     },
