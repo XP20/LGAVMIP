@@ -3,7 +3,7 @@
     <title>99% spēlētāju beidz spēlēt pirms lielā laimesta</title>
 
     <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script type="module" src="/public/maps.js"></script>
+    <script type="module" src="/public/js/maps.js"></script>
   </head>
   <body>
     <div id="map"></div>
@@ -28,16 +28,19 @@
         margin: 0;
         padding: 0;
     }
-
-    #map {
-        float: right;
-        height: 100%;
-        width: 0%;
+    #map{
+        float: left;
+        height: 40%;
+        width: 30%;
+        z-index: 2;
     }
     #pano {
         float: right;
         height: 100%;
         width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
   </style>
 </html>
