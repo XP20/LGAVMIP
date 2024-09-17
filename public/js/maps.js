@@ -13,8 +13,8 @@ async function initialize() {
   const pos = getCoords();
   const userGuessPos = { lat: 0,  lng: 0 };
   const map = new google.maps.Map(document.getElementById("map"), {
-    center: pos,
-    zoom: 14,
+    center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
+    zoom: 7,
     mapId: "DEMO_MAP_ID",
   });
   const panorama = new google.maps.StreetViewPanorama(
