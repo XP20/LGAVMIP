@@ -7,8 +7,10 @@ const leaderboard = { '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7
 const apiLeaderboard = new Hono()
     .post('/test', async (c) => {
         const body = await c.req.json();
-        const { from, count } = body;
-        return c.json(Object.entries(leaderboard).slice(from, from + count));
+        const { from, count, reversed } = body;
+        const array = reversed ? Object.entries(leaderboard).reverse() : Object.entries(leaderboard);
+        const result = reversed ? array.slice(from, from + count).reverse() : array.slice(from, from + count);
+        return c.json(result);
     });
 
 

@@ -6,13 +6,13 @@ function closeLeaderboard() {
     document.getElementById('leaderboard').classList.add('hidden');
 }
 
-
-async function getLeaderboardPage(page) {
+async function getLeaderboard(from = 0, count = 10, reversed = false) {
     const response = await fetch('/api/leaderboard/test', {
         method: 'POST',
         body: JSON.stringify({
-            from: 0,
-            count: 10,
+            from: from,
+            count: count,
+            reversed: reversed,
         }),
     });
     const result = await response.json();
@@ -28,4 +28,4 @@ async function getLeaderboardPage(page) {
         leaderboardList.appendChild(leaderboardEntry);
     }
 }
-getLeaderboardPage();
+getLeaderboard();

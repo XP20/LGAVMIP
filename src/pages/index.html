@@ -13,14 +13,16 @@
             <button class="border-4 px-2 rounded-xl border-slate-800" onclick="openLeaderboard()">
                 Leaderboards
             </button>
-            <button class="border-4 px-2 rounded-xl border-slate-800">Give us money fuckhead</button>
+            <button class="border-4 px-2 rounded-xl border-slate-800">Donate?</button>
         </span>
         <span id="leaderboard" class="absolute w-screen h-screen flex justify-center items-center bg-slate-800 bg-opacity-60 hidden">
-            <span class="flex flex-col min-w-96 w-2/6 h-4/5 border-4 p-6 border-slate-800 bg-white rounded-2xl text-center">
+            <span class="flex flex-col min-w-96 w-2/6 h-4/5 border-4 p-6 border-slate-800 bg-white rounded-2xl text-center gap-4">
                 <span class="text-3xl font-bold">
                     Idiots
                 </span>
                 <span id="leaderboard-list" class="overflow-y-scroll flex-1 flex flex-col"></span>
+                <button class="border-4 px-2 rounded-xl border-green-800 bg-green-500" onclick="getLeaderboard()"> Top</button>
+                <button class="border-4 px-2 rounded-xl border-yellow-700 bg-yellow-500" onclick="getLeaderboard(0, 10, true)"> Bottom</button>
                 <button class="border-4 px-2 rounded-xl border-red-800 bg-red-300" onclick="closeLeaderboard()"> Get me out</button>
             </span>
         </span>
