@@ -24,3 +24,15 @@ async function initialize() {
 }
 
 window.initialize = initialize;
+window.onload = () => {
+  const pano = document.getElementById('pano');
+  const pano_inner = pano.firstElementChild;
+  for (const child of pano_inner.childNodes) {
+    if (!child.classList.contains('exCVRN-size-observer-view'))
+      pano_inner.removeChild(child);
+  }
+}
+
+function toggleMap() {
+  document.getElementById('map').classList.contains('hidden') ? document.getElementById('map').classList.remove('hidden') : document.getElementById('map').classList.add('hidden')
+}
