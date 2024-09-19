@@ -11,17 +11,32 @@ function getCoords() {
 }
 
 async function initialize() {
-  const pos = getCoords();
   const userGuessPos = { lat: 0,  lng: 0 };
-  const sv = new google.maps.StreetViewService();
   const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
     zoom: 7,
     mapId: "DEMO_MAP_ID",
     streetViewControl: false,
   });
+  const pano = await doPanorama(); //generate pano and get pano data to extract true location from
+  const panoLocation = pano.data.location.latLng; //true initial location of pano
+  const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
+    center: panoLocation, 
+    zoom: 17,
+    mapId: "debugMap",
+    streetViewControl: false,
+  });
+}
+
+async function doPanorama() {
+  const pos = getCoords();
+  const sv = new google.maps.StreetViewService();
   panorama = new google.maps.StreetViewPanorama(document.getElementById("pano"));
-  sv.getPanorama({location: pos, radius: 5000}).then(processSVData);
+  const result = await sv.getPanorama({location: pos, radius: 5000}).catch((e) => 
+    doPanorama(), //hacky solution, if pano isn't found, generate new location
+  );
+  processSVData(result);
+  return result;
 }
 
 function processSVData({ data }) {
