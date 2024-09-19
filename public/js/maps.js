@@ -8,14 +8,17 @@ function getCoords() {
   return {lat: latitude, lng: longitude};
 }
 
+let marker = null;
 async function initialize() {
   const {AdvancedMarkerElement} = await google.maps.importLibrary("marker");
   const pos = getCoords();
   const userGuessPos = { lat: 0,  lng: 0 };
-  const map = new google.maps.Map(document.getElementById("map"), {
+  let map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
     zoom: 7,
     mapId: "DEMO_MAP_ID",
+    disableDefaultUI: true,
+    clickableIcons: false
   });
   const panorama = new google.maps.StreetViewPanorama(
     document.getElementById("pano"),
@@ -26,23 +29,22 @@ async function initialize() {
         pitch: 10,
       },
       addressControl: false,
+      disableDefaultUI: true
     },
   );
-  const marker = new AdvancedMarkerElement({
-    map: map,
-    position: userGuessPos,
+  google.maps.event.addListener(map, "click", (event) => {
+    console.log(event);
+    if (marker != null)
+      marker.setMap(null);
+    marker = new google.maps.Marker({
+      position: event.latLng,
+      label: 'A',
+      map: map,
+    });
   });
 }
+window.initMap = initialize;
 
-window.initialize = initialize;
-window.onload = () => {
-  const pano = document.getElementById('pano');
-  const pano_inner = pano.firstElementChild;
-  for (const child of pano_inner.childNodes) {
-    if (!child.classList.contains('exCVRN-size-observer-view'))
-      pano_inner.removeChild(child);
-  }
-}
 
 function toggleMap() {
   document.getElementById('map').classList.contains('hidden') ? document.getElementById('map').classList.remove('hidden') : document.getElementById('map').classList.add('hidden')
