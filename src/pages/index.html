@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>LGAVMIP</title>
         <link rel="stylesheet" href="/public/main.css">
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script src="/public/js/index.js"></script>
     </head>
     
@@ -23,8 +24,8 @@
                     Idiots
                 </span>
                 <span id="leaderboard-list" class="overflow-y-scroll flex-1 flex flex-col"></span>
-                <button class="border-4 px-2 rounded-xl border-green-800 bg-green-500" onclick="getLeaderboard()"> Top</button>
-                <button class="border-4 px-2 rounded-xl border-yellow-700 bg-yellow-500" onclick="getLeaderboard(0, 10, true)"> Bottom</button>
+                <button class="border-4 px-2 rounded-xl border-green-800 bg-green-500" onclick="getLeaderboard(10, false)"> Top</button>
+                <button class="border-4 px-2 rounded-xl border-yellow-700 bg-yellow-500" onclick="getLeaderboard(10, true)"> Bottom</button>
                 <button class="border-4 px-2 rounded-xl border-red-800 bg-red-300" onclick="closeLeaderboard()"> Get me out</button>
             </span>
         </span>
