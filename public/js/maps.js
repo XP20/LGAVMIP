@@ -1,4 +1,5 @@
 let panorama;
+let sv;
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -18,7 +19,9 @@ async function initialize() {
     mapId: "DEMO_MAP_ID",
     streetViewControl: false,
   });
-  const pano = await doPanorama(); //generate pano and get pano data to extract true location from
+  initPano();
+  const pano = await getPanoData(); //get panorama data
+  processSVData(pano);
   const panoLocation = pano.data.location.latLng; //true initial location of pano
   const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
     center: panoLocation, 
@@ -28,14 +31,16 @@ async function initialize() {
   });
 }
 
-async function doPanorama() {
-  const pos = getCoords();
-  const sv = new google.maps.StreetViewService();
+function initPano() {
+  sv = new google.maps.StreetViewService();
   panorama = new google.maps.StreetViewPanorama(document.getElementById("pano"));
+}
+
+async function getPanoData() {
+  const pos = getCoords();
   const result = await sv.getPanorama({location: pos, radius: 5000}).catch((e) => 
-    doPanorama(), //hacky solution, if pano isn't found, generate new location
+    getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );
-  processSVData(result);
   return result;
 }
 
@@ -53,17 +58,6 @@ function processSVData({ data }) {
     pitch: 0,
   });
   panorama.setVisible(true);
-  marker.addListener("click", () => {
-    const markerPanoID = location.pano;
-
-    // Set the Pano to use the passed panoID.
-    panorama.setPano(markerPanoID);
-    panorama.setPov({
-      heading: 270,
-      pitch: 0,
-    });
-    panorama.setVisible(true);
-  });
 }
 
 window.initialize = initialize;
