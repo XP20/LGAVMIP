@@ -6,8 +6,8 @@ function getRndInteger(min, max) {
 }
 
 function getCoords() {
-  const latitude = parseFloat(getRndInteger(56500000, 57000000))/1000000;
-  const longitude = parseFloat(getRndInteger(23000000, 24000000))/1000000; 
+  const latitude = parseFloat(getRndInteger(56450000, 57500000))/1000000;
+  const longitude = parseFloat(getRndInteger(21000000, 27400000))/1000000; 
   return {lat: latitude, lng: longitude};
 }
 
@@ -18,27 +18,40 @@ async function initialize() {
     zoom: 7,
     mapId: "DEMO_MAP_ID",
     streetViewControl: false,
+    fullscreenControl: false,
   });
   initPano();
+  doPanorama();
+}
+
+async function doPanorama() {
   const pano = await getPanoData(); //get panorama data
   processSVData(pano);
   const panoLocation = pano.data.location.latLng; //true initial location of pano
   const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
     center: panoLocation, 
-    zoom: 17,
+    zoom: 15,
     mapId: "debugMap",
     streetViewControl: false,
+    fullscreenControl: false,
   });
 }
 
 function initPano() {
   sv = new google.maps.StreetViewService();
-  panorama = new google.maps.StreetViewPanorama(document.getElementById("pano"));
+  panorama = new google.maps.StreetViewPanorama(
+    document.getElementById("pano"),
+    {
+      addressControl: false,
+      enableCloseButton: false,
+      fullscreenControl: false,
+    },
+  );
 }
 
 async function getPanoData() {
   const pos = getCoords();
-  const result = await sv.getPanorama({location: pos, radius: 5000}).catch((e) => 
+  const result = await sv.getPanorama({location: pos, radius: 5000, source: "outdoor"}).catch((e) => 
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );
   return result;
