@@ -13,7 +13,6 @@ function getCoords() {
 
 let marker = null;
 async function initialize() {
-  const userGuessPos = { lat: 0,  lng: 0 };
   let map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
     zoom: 7,
@@ -50,8 +49,8 @@ async function doPanorama() {
 window.initMap = initialize;
 
 
-function toggleMap() {
-  document.getElementById('map').classList.contains('hidden') ? document.getElementById('map').classList.remove('hidden') : document.getElementById('map').classList.add('hidden')
+function Submit() {
+  console.log(marker.position, )
 }
 
 function toggleDebugMap() {
@@ -67,6 +66,7 @@ function initPano() {
       enableCloseButton: false,
       fullscreenControl: false,
       disableDefaultUI: true,
+      showRoadLabels: false
     },
   );
 }

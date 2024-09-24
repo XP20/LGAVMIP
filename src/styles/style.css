@@ -9,3 +9,11 @@ html,body {
     margin: 0;
     padding: 0;
 }
+
+
+.HoveringOverMap {
+    @apply transition-all duration-500;
+}
+.HoveringOverMap:hover {
+    @apply opacity-100 w-2/5 h-3/6;
+}
