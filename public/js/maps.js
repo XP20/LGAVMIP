@@ -1,6 +1,7 @@
 let panorama;
 let sv;
 let marker = null;
+let panoLocation
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -37,7 +38,7 @@ async function initialize() {
 async function doPanorama() {
   const pano = await getPanoData(); //get panorama data
   processSVData(pano);
-  const panoLocation = pano.data.location.latLng; //true initial location of pano
+  panoLocation = pano.data.location.latLng; //true initial location of pano
   const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
     center: panoLocation, 
     zoom: 15,
@@ -45,12 +46,13 @@ async function doPanorama() {
     streetViewControl: false,
     fullscreenControl: false,
   });
+  marker.setMap(null)
 }
 window.initMap = initialize;
 
 
 function Submit() {
-  console.log(marker.position, )
+  console.log(marker.position.lat(), marker.position.lng(), panoLocation.lat(), panoLocation.lng(), google.maps.geometry.spherical.computeDistanceBetween(marker.position, panoLocation));
 }
 
 function toggleDebugMap() {
