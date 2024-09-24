@@ -1,6 +1,11 @@
 # LGAVMIP
 Latvijas Ģeogrāfiskās Atrašanās Vietas Minēšanas Informātikas Projekts
 
+---
+
+## Projekta "Prasību analīze un idejas formulējums"
+https://docs.google.com/document/d/1FTJm0lDJMQxkHQZfTOuoOaIzUb5TJsB8RjPoKEviHZo/edit?usp=sharing
+
 ## Problēmas izpēte
 
 Interneta mājaslapu un mobilo aplikāciju “Google Maps” lieto vairāk kā miljards cilvēku katru mēnesi [1]. No šīs informācijas mēs varam pieņemt, ka liela daļa Latvijas iedzīvotāju arī pielieto “Google Maps” pakalpojumu.
