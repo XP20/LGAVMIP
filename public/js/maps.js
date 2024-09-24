@@ -1,5 +1,6 @@
 let panorama;
 let sv;
+let marker = null;
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -11,7 +12,6 @@ function getCoords() {
   return {lat: latitude, lng: longitude};
 }
 
-let marker = null;
 async function initialize() {
   let map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
