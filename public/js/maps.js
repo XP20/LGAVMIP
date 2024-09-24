@@ -53,6 +53,11 @@ window.initMap = initialize;
 function toggleMap() {
   document.getElementById('map').classList.contains('hidden') ? document.getElementById('map').classList.remove('hidden') : document.getElementById('map').classList.add('hidden')
 }
+
+function toggleDebugMap() {
+  document.getElementById('debugMap').classList.contains('hidden') ? document.getElementById('debugMap').classList.remove('hidden') : document.getElementById('debugMap').classList.add('hidden')
+}
+
 function initPano() {
   sv = new google.maps.StreetViewService();
   panorama = new google.maps.StreetViewPanorama(

@@ -8,12 +8,18 @@
   <body class="w-screen h-screen">
     <span class="w-full h-full p-4 rounded-2xl">
       <div id="map" class="hidden absolute top-3 left-3 w-3/5 h-4/6"></div>
-      <div id="debugMap" class="absolute top-3 right-3 w-3/5 h-4/6"></div>
+      <div id="debugMap" class="hidden absolute top-3 right-3 w-3/5 h-4/6"></div>
       <div id="pano"></div>
     </span>
     <span>
-      <button class="absolute bottom-2 left-2 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="toggleMap()">
+      <button class="absolute bottom-4 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="toggleMap()">
         Submit
+      </button>
+      <button class="absolute bottom-24 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="doPanorama()">
+        Generate new location
+      </button>
+      <button class="absolute bottom-44 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="toggleDebugMap()">
+        Toggle debug map
       </button>
     </span>
     <!-- 
@@ -33,11 +39,7 @@
         z-index: 2;
     }
     #debugMap{
-        float: right;
-        height: 40%;
-        width: 30%;
         z-index: 2;
-        visibility: hidden;
     }
     #pano {
         height: 100%;
