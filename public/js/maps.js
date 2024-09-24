@@ -1,5 +1,6 @@
 let panorama;
 let sv;
+let marker = null;
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -11,7 +12,6 @@ function getCoords() {
   return {lat: latitude, lng: longitude};
 }
 
-let marker = null;
 async function initialize() {
   const userGuessPos = { lat: 0,  lng: 0 };
   let map = new google.maps.Map(document.getElementById("map"), {
