@@ -54,6 +54,7 @@ async function doPanorama() {
     fullscreenControl: false,
   });
   marker.setMap(null)
+  document.getElementById('results-screen').classList.add('hidden');
 }
 window.initMap = initialize;
 
@@ -69,11 +70,10 @@ function computeScore(){
 }
 
 function Submit() {
-  document.getElementById('results-screen').classList.remove('hidden');
-  if (roundCounter<5) {
+  if (roundCounter < 5) {
     score += computeScore();
     
-  // console.log(marker.position.lat(), marker.position.lng(), panoLocation.lat(), panoLocation.lng(), score);
+    // console.log(marker.position.lat(), marker.position.lng(), panoLocation.lat(), panoLocation.lng(), score);
     document.getElementById('score').innerHTML = score.toString();
     roundCounter+=1;
   } else {
@@ -81,7 +81,7 @@ function Submit() {
     roundCounter=0; //After 5 rounds, reset
     score=0;
   }
-  doPanorama();
+  document.getElementById('results-screen').classList.remove('hidden');
 }
 
 function toggleDebugMap() {
