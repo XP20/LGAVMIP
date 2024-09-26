@@ -17,7 +17,6 @@ async function initialize() {
   let map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
     zoom: 7,
-    mapId: "DEMO_MAP_ID",
     disableDefaultUI: true,
     clickableIcons: false
   });
@@ -30,6 +29,12 @@ async function initialize() {
       label: 'A',
       map: map,
     });
+  });
+  const resultMap = new google.maps.Map(document.getElementById("results-map"), {
+    center: { lat: 56.951941,  lng: 24.081368 }, 
+    zoom: 7,
+    disableDefaultUI: true,
+    clickableIcons: false
   });
   initPano();
   doPanorama();
@@ -53,6 +58,7 @@ window.initMap = initialize;
 
 function Submit() {
   console.log(marker.position.lat(), marker.position.lng(), panoLocation.lat(), panoLocation.lng(), google.maps.geometry.spherical.computeDistanceBetween(marker.position, panoLocation));
+  document.getElementById('results-screen').classList.remove('hidden');
 }
 
 function toggleDebugMap() {
