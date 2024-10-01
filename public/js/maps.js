@@ -5,16 +5,6 @@ let panoLocation;
 let score = 0;
 let roundCounter = 0;
 
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;
-}
-
-function getCoords() {
-  const latitude = parseFloat(getRndInteger(56450000, 57500000))/1000000;
-  const longitude = parseFloat(getRndInteger(20800000, 27400000))/1000000; 
-  return {lat: latitude, lng: longitude};
-}
-
 async function initialize() {
   let map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
@@ -48,12 +38,12 @@ async function doPanorama() {
   panoLocation = pano.data.location.latLng; //true initial location of pano
   const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
     center: panoLocation, 
-    zoom: 15,
+    zoom: 11,
     mapId: "debugMap",
     streetViewControl: false,
     fullscreenControl: false,
   });
-  marker.setMap(null)
+  marker.setMap(null);
   document.getElementById('results-screen').classList.add('hidden');
 }
 window.initMap = initialize;
@@ -83,7 +73,8 @@ function Submit() {
 }
 
 function toggleDebugMap() {
-  document.getElementById('debugMap').classList.contains('hidden') ? document.getElementById('debugMap').classList.remove('hidden') : document.getElementById('debugMap').classList.add('hidden')
+  document.getElementById('debugMap').classList.contains('hidden') ? document.getElementById('debugMap').classList.remove('hidden') : document.getElementById('debugMap').classList.add('hidden');
+  document.getElementById('debugButton').classList.contains('hidden') ? document.getElementById('debugButton').classList.remove('hidden') : document.getElementById('debugButton').classList.add('hidden');
 }
 
 function initPano() {
@@ -101,7 +92,7 @@ function initPano() {
 }
 
 async function getPanoData() {
-  const pos = getCoords();
+  const pos = getCoords2();
   const result = await sv.getPanorama({location: pos, radius: 5000, source: "outdoor"}).catch((e) => 
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );

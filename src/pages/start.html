@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/public/main.css" />
+    <script src="/public/js/coordinateFinder.js"></script>
     <script src="/public/js/maps.js"></script>
   </head>
   <body class="w-screen h-screen">
@@ -24,6 +25,9 @@
       </div>
       <button class="absolute bottom-44 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="toggleDebugMap()">
         Toggle debug map
+      </button>
+      <button id="debugButton" class="hidden absolute bottom-28 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="doPanorama()">
+        Debug location generation
       </button>
     </span>
     <span id="results-screen" class="flex flex-col w-screen h-screen bg-white absolute z-50 font-open-sans font-bold hidden">
