@@ -60,11 +60,11 @@ window.initMap = initialize;
 
 function computeScore(){
   const maxScore = 1000; //score value at 0 meters/100% accurate guess
-  const punishmentFactor = 10; //controls how quickly the score drops off with inaccuracy, the closer to 0, the more punishing
+  const punishmentFactor = 12; //controls how quickly the score drops off with inaccuracy, the closer to 0, the more punishing
   const distance = google.maps.geometry.spherical.computeDistanceBetween(marker.position, panoLocation);
   tempScore = maxScore/((distance/(maxScore*punishmentFactor))+1); // asymptotically goes down to 0 as distance from real guess tends to infinity, gives too high of a score for shitty guesses so need a secondary factor to take care of far-guess edge cases
   tempScore = tempScore - Math.pow(distance, 5)*Math.pow(10, -2*punishmentFactor); // high-order power that pulls down the score at extreme distances
-  if (tempScore<0) {
+  if (tempScore<=0) {
     return 0;
   } else return Math.ceil(tempScore);
 }
