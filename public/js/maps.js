@@ -11,7 +11,7 @@ function getRndInteger(min, max) {
 
 function getCoords() {
   const latitude = parseFloat(getRndInteger(56450000, 57500000))/1000000;
-  const longitude = parseFloat(getRndInteger(21000000, 27400000))/1000000; 
+  const longitude = parseFloat(getRndInteger(20800000, 27400000))/1000000; 
   return {lat: latitude, lng: longitude};
 }
 
@@ -94,7 +94,7 @@ function initPano() {
       addressControl: false,
       enableCloseButton: false,
       fullscreenControl: false,
-      disableDefaultUI: true,
+      zoomControl: false,
       showRoadLabels: false
     },
   );
