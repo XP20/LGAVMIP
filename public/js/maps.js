@@ -4,6 +4,7 @@ let marker = null;
 let panoLocation;
 let score = 0;
 let roundCounter = 0;
+let pano; //panorama data object
 
 async function initialize() {
   let map = new google.maps.Map(document.getElementById("map"), {
@@ -33,7 +34,7 @@ async function initialize() {
 }
 
 async function doPanorama() {
-  const pano = await getPanoData(); //get panorama data
+  pano = await getPanoData(); //get panorama data
   processSVData(pano);
   panoLocation = pano.data.location.latLng; //true initial location of pano
   const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
@@ -101,17 +102,7 @@ async function getPanoData() {
 
 function processSVData({ data }) {
   const location = data.location;
-  const marker = new google.maps.Marker({
-    position: location.latLng,
-    map,
-    title: location.description,
-  });
-
   panorama.setPano(location.pano);
-  panorama.setPov({
-    heading: 270,
-    pitch: 0,
-  });
   panorama.setVisible(true);
 }
 

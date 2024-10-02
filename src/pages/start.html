@@ -23,10 +23,13 @@
       <div id="score" class="absolute top-8 border-[#9D2235] border-[0.5rem] z-10 bg-white p-1 rounded-xl text-2xl">
         Score
       </div>
-      <button class="absolute bottom-44 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="toggleDebugMap()">
+      <button id="returnButton" class="absolute bottom-28 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="processSVData(pano)">
+        Atgriezties sākuma pozīcijā
+      </button>
+      <button class="absolute bottom-8 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="toggleDebugMap()">
         Toggle debug map
       </button>
-      <button id="debugButton" class="hidden absolute bottom-28 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="doPanorama()">
+      <button id="debugButton" class="hidden absolute bottom-48 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="doPanorama()">
         Debug location generation
       </button>
     </span>
