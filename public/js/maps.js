@@ -93,7 +93,7 @@ function initPano() {
 }
 
 async function getPanoData() {
-  const pos = getCoords2();
+  const pos = getCoords();
   const result = await sv.getPanorama({location: pos, radius: 5000, source: "outdoor"}).catch((e) => 
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );
