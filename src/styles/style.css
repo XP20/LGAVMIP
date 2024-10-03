@@ -11,9 +11,10 @@ html,body {
 }
 
 
-.HoveringOverMap {
+.HoveringOverMap, #map-blur {
     @apply transition-all duration-500;
 }
-.HoveringOverMap:hover {
+
+.HoveringOverMap:hover, .HoveringOverMap:hover ~ #map-blur {
     @apply opacity-100 w-2/5 h-3/6;
 }
