@@ -1,33 +1,46 @@
 let panorama;
 let sv;
-let marker = null;
+let playerMarker = null;
+let randomMarker = null;
 let panoLocation;
 let score = 0;
 let roundCounter = 0;
 let pano; //panorama data object
+let selctedPosition;
+let resultMap;
+
+let PinElementRef = null;
+let AdvancedMarkerElementRef = null;
 
 async function initialize() {
+  const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
+  PinElementRef = PinElement;
+  AdvancedMarkerElementRef = AdvancedMarkerElement;
+  
   let map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
     zoom: 7,
     disableDefaultUI: true,
-    clickableIcons: false
+    clickableIcons: false,
+    mapId: "map",
   });
   google.maps.event.addListener(map, "click", (event) => {
     console.log(event);
-    if (marker != null)
-      marker.setMap(null);
-    marker = new google.maps.Marker({
+    if (playerMarker != null)
+      playerMarker.setMap(null);
+    selctedPosition = event.latLng
+    playerMarker = new google.maps.Marker({
       position: event.latLng,
       label: 'A',
       map: map,
     });
   });
-  const resultMap = new google.maps.Map(document.getElementById("results-map"), {
+  resultMap = new google.maps.Map(document.getElementById("results-map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, 
     zoom: 7,
     disableDefaultUI: true,
-    clickableIcons: false
+    clickableIcons: false,
+    mapId: "resultMap"
   });
   initPano();
   doPanorama();
@@ -44,7 +57,7 @@ async function doPanorama() {
     streetViewControl: false,
     fullscreenControl: false,
   });
-  marker.setMap(null);
+  playerMarker.setMap(null);
   document.getElementById('results-screen').classList.add('hidden');
 }
 window.initMap = initialize;
@@ -52,7 +65,7 @@ window.initMap = initialize;
 function computeScore(){
   const maxScore = 1000; //score value at 0 meters/100% accurate guess
   const punishmentFactor = 12; //controls how quickly the score drops off with inaccuracy, the closer to 0, the more punishing
-  const distance = google.maps.geometry.spherical.computeDistanceBetween(marker.position, panoLocation);
+  const distance = google.maps.geometry.spherical.computeDistanceBetween(playerMarker.position, panoLocation);
   tempScore = maxScore/((distance/(maxScore*punishmentFactor))+1); // asymptotically goes down to 0 as distance from real guess tends to infinity, gives too high of a score for shitty guesses so need a secondary factor to take care of far-guess edge cases
   tempScore = tempScore - Math.pow(distance, 5)*Math.pow(10, -2*punishmentFactor); // high-order power that pulls down the score at extreme distances
   if (tempScore<=0) {
@@ -60,7 +73,7 @@ function computeScore(){
   } else return Math.ceil(tempScore);
 }
 
-function Submit() {
+async function Submit() {
   score += computeScore();
   if (roundCounter < 4) {
     document.getElementById('score').innerHTML = score.toString();
@@ -71,6 +84,38 @@ function Submit() {
     score=0;
   }
   document.getElementById('results-screen').classList.remove('hidden');
+  resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 }, 7);
+   if (playerMarker != null)
+    playerMarker.setMap(null);
+
+   if (randomMarker != null)
+    randomMarker.setMap(null)
+
+   const pinPlayer = new PinElementRef({
+    borderColor: "#d92eff",
+    background: "#e77cf7",
+    glyphColor: "white"
+  })  
+  
+  const pinRandomSet = new PinElementRef ({
+    borderColor: "#cc260c",
+    background: "#ede324",
+    glyphColor: "white",
+  })
+
+   playerMarker = new AdvancedMarkerElementRef({
+     position: selctedPosition,
+     content: pinPlayer.element,
+     map: resultMap,
+
+  });
+  randomMarker = new AdvancedMarkerElementRef({
+    position: panoLocation,
+    content: pinRandomSet.element,
+    map: resultMap,
+    
+  });
+
 }
 
 function toggleDebugMap() {
