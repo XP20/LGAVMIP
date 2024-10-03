@@ -3,10 +3,11 @@ let sv;
 let playerMarker = null;
 let randomMarker = null;
 let panoLocation;
+let selctedPosition;
+let distanceBetweenMarkers
 let score = 0;
 let roundCounter = 0;
 let pano; //panorama data object
-let selctedPosition;
 let resultMap;
 
 let PinElementRef = null;
@@ -84,38 +85,63 @@ async function Submit() {
     score=0;
   }
   document.getElementById('results-screen').classList.remove('hidden');
-  resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 }, 7);
+  resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 }, 6);
    if (playerMarker != null)
     playerMarker.setMap(null);
 
    if (randomMarker != null)
     randomMarker.setMap(null)
 
+   if (distanceBetweenMarkers != null)
+    distanceBetweenMarkers.setMap(null)
+
    const pinPlayer = new PinElementRef({
     borderColor: "#d92eff",
     background: "#e77cf7",
     glyphColor: "white"
   })  
-  
+
   const pinRandomSet = new PinElementRef ({
     borderColor: "#cc260c",
     background: "#ede324",
     glyphColor: "white",
   })
 
+  const lineSymbol ={
+    path: 'M 0,-1 0,1',
+    strokeOpacity: 1,
+    scale: 3
+  };
+
    playerMarker = new AdvancedMarkerElementRef({
      position: selctedPosition,
      content: pinPlayer.element,
      map: resultMap,
-
   });
+
   randomMarker = new AdvancedMarkerElementRef({
     position: panoLocation,
     content: pinRandomSet.element,
     map: resultMap,
-    
   });
 
+  let coordinates = [
+    panoLocation,
+    selctedPosition
+  ];
+
+  distanceBetweenMarkers = new google.maps.Polyline({
+    path: coordinates,
+    strokeOpacity: 0,
+    icons: [{
+      icon: lineSymbol,
+      offset: '0',
+      repeat: '20px'
+    }],
+    map: resultMap
+  });
+
+  distanceBetweenMarkers.setMap(resultMap);
 }
 
 function toggleDebugMap() {
