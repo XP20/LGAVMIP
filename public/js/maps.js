@@ -4,16 +4,7 @@ let marker = null;
 let panoLocation;
 let score = 0;
 let roundCounter = 0;
-
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;
-}
-
-function getCoords() {
-  const latitude = parseFloat(getRndInteger(56450000, 57500000))/1000000;
-  const longitude = parseFloat(getRndInteger(21000000, 27400000))/1000000; 
-  return {lat: latitude, lng: longitude};
-}
+let pano; //panorama data object
 
 async function initialize() {
   let map = new google.maps.Map(document.getElementById("map"), {
@@ -43,28 +34,28 @@ async function initialize() {
 }
 
 async function doPanorama() {
-  const pano = await getPanoData(); //get panorama data
+  pano = await getPanoData(); //get panorama data
   processSVData(pano);
   panoLocation = pano.data.location.latLng; //true initial location of pano
   const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
     center: panoLocation, 
-    zoom: 15,
+    zoom: 11,
     mapId: "debugMap",
     streetViewControl: false,
     fullscreenControl: false,
   });
-  marker.setMap(null)
+  marker.setMap(null);
   document.getElementById('results-screen').classList.add('hidden');
 }
 window.initMap = initialize;
 
 function computeScore(){
   const maxScore = 1000; //score value at 0 meters/100% accurate guess
-  const punishmentFactor = 10; //controls how quickly the score drops off with inaccuracy, the closer to 0, the more punishing
+  const punishmentFactor = 12; //controls how quickly the score drops off with inaccuracy, the closer to 0, the more punishing
   const distance = google.maps.geometry.spherical.computeDistanceBetween(marker.position, panoLocation);
   tempScore = maxScore/((distance/(maxScore*punishmentFactor))+1); // asymptotically goes down to 0 as distance from real guess tends to infinity, gives too high of a score for shitty guesses so need a secondary factor to take care of far-guess edge cases
   tempScore = tempScore - Math.pow(distance, 5)*Math.pow(10, -2*punishmentFactor); // high-order power that pulls down the score at extreme distances
-  if (tempScore<0) {
+  if (tempScore<=0) {
     return 0;
   } else return Math.ceil(tempScore);
 }
@@ -83,7 +74,8 @@ function Submit() {
 }
 
 function toggleDebugMap() {
-  document.getElementById('debugMap').classList.contains('hidden') ? document.getElementById('debugMap').classList.remove('hidden') : document.getElementById('debugMap').classList.add('hidden')
+  document.getElementById('debugMap').classList.contains('hidden') ? document.getElementById('debugMap').classList.remove('hidden') : document.getElementById('debugMap').classList.add('hidden');
+  document.getElementById('debugButton').classList.contains('hidden') ? document.getElementById('debugButton').classList.remove('hidden') : document.getElementById('debugButton').classList.add('hidden');
 }
 
 function initPano() {
@@ -94,7 +86,7 @@ function initPano() {
       addressControl: false,
       enableCloseButton: false,
       fullscreenControl: false,
-      disableDefaultUI: true,
+      zoomControl: false,
       showRoadLabels: false
     },
   );
@@ -110,17 +102,7 @@ async function getPanoData() {
 
 function processSVData({ data }) {
   const location = data.location;
-  const marker = new google.maps.Marker({
-    position: location.latLng,
-    map,
-    title: location.description,
-  });
-
   panorama.setPano(location.pano);
-  panorama.setPov({
-    heading: 270,
-    pitch: 0,
-  });
   panorama.setVisible(true);
 }
 

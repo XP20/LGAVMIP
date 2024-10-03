@@ -7,23 +7,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/public/main.css" />
+    <script src="/public/js/coordinateFinder.js"></script>
     <script src="/public/js/maps.js"></script>
   </head>
   <body class="w-screen h-screen">
-    <span class="flex justify-center w-full h-full p-4 rounded-2xl">
-      <div id="map-wrapper" class="HoveringOverMap absolute top-3 left-3 w-1/5 h-2/6 opacity-40 z-10">
+    <span class="flex justify-center w-full h-full rounded-2xl">
+      <div id="map-wrapper" class="HoveringOverMap absolute top-4 left-4 w-1/5 h-2/6 opacity-40 z-10">
         <div id="map" class="w-full h-full rounded-xl"></div>
         <button class="shadow shadow-black absolute right-3 bottom-3 z-20 bg-green-200 px-2 py-0.5 rounded-xl text-lg font-open-sans font-bold text-green-700" onclick="Submit()">
           Submit
         </button>
       </div>
-      <div id="debugMap" class="hidden absolute top-3 right-3 w-3/5 h-4/6"></div>
-      <div id="pano" class="rounded-xl"></div>
-      <div id="score" class="absolute top-8 border-[#9D2235] border-[0.5rem] z-10 bg-white p-1 rounded-xl text-2xl">
+      <div id="debugMap" class="hidden absolute top-0 right-0 w-3/5 h-4/6"></div>
+      <div id="pano"></div>
+      <div id="score" class="absolute top-4 border-[#9D2235] border-[0.5rem] z-10 bg-white p-1 rounded-xl text-2xl">
         Score
       </div>
-      <button class="absolute bottom-44 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="toggleDebugMap()">
+      <button id="returnButton" class="absolute bottom-28 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="processSVData(pano)">
+        Atgriezties sākuma pozīcijā
+      </button>
+      <button class="absolute bottom-8 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="toggleDebugMap()">
         Toggle debug map
+      </button>
+      <button id="debugButton" class="hidden absolute bottom-48 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="doPanorama()">
+        Debug location generation
       </button>
     </span>
     <span id="results-screen" class="flex flex-col w-screen h-screen bg-white absolute z-50 font-open-sans font-bold hidden">
