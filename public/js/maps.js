@@ -8,6 +8,7 @@ let distanceBetweenMarkers
 let score = 0;
 let roundCounter = 0;
 let pano; //panorama data object
+let lastPano;
 let resultMap;
 
 let PinElementRef = null;
@@ -58,6 +59,7 @@ async function doPanorama() {
     fullscreenControl: false,
   });
   document.getElementById('results-screen').classList.add('hidden');
+  lastPano = pano;
   pano = await getPanoData(); //get next panorama data
   playerMarker.setMap(null);
 }
@@ -162,6 +164,8 @@ async function initPano() {
     },
   );
   pano = await getPanoData(); //get inital panorama
+  lastPano = pano;
+
 }
 
 async function getPanoData() {
