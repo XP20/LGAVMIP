@@ -42,12 +42,11 @@ async function initialize() {
     clickableIcons: false,
     mapId: "resultMap"
   });
-  initPano();
+  await initPano();
   doPanorama();
 }
 
 async function doPanorama() {
-  pano = await getPanoData(); //get panorama data
   processSVData(pano);
   panoLocation = pano.data.location.latLng; //true initial location of pano
   const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
@@ -57,8 +56,9 @@ async function doPanorama() {
     streetViewControl: false,
     fullscreenControl: false,
   });
-  playerMarker.setMap(null);
   document.getElementById('results-screen').classList.add('hidden');
+  pano = await getPanoData(); //get next panorama data
+  playerMarker.setMap(null);
 }
 window.initMap = initialize;
 
@@ -123,7 +123,7 @@ function toggleDebugMap() {
   document.getElementById('debugButton').classList.contains('hidden') ? document.getElementById('debugButton').classList.remove('hidden') : document.getElementById('debugButton').classList.add('hidden');
 }
 
-function initPano() {
+async function initPano() {
   sv = new google.maps.StreetViewService();
   panorama = new google.maps.StreetViewPanorama(
     document.getElementById("pano"),
@@ -135,11 +135,13 @@ function initPano() {
       showRoadLabels: false
     },
   );
+  pano = await getPanoData(); //get inital panorama
 }
 
 async function getPanoData() {
+  console.log("here");
   const pos = getCoords();
-  const result = await sv.getPanorama({location: pos, radius: 5000, source: "outdoor"}).catch((e) => 
+  const result = await sv.getPanorama({location: pos, radius: 50, source: "outdoor"}).catch((e) => 
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );
   return result;
