@@ -165,7 +165,6 @@ async function initPano() {
 }
 
 async function getPanoData() {
-  console.log("here");
   const pos = getCoords();
   const result = await sv.getPanorama({location: pos, radius: 50, source: "outdoor"}).catch((e) => 
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
