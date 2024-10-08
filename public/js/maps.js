@@ -86,7 +86,8 @@ async function Submit() {
     score=0;
   }
   document.getElementById('results-screen').classList.remove('hidden');
-  resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 }, 6);
+  resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
+  resultMap.setZoom(7);
    if (playerMarker != null)
     playerMarker.setMap(null);
 
