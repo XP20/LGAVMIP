@@ -1,6 +1,6 @@
 let panorama;
 let sv;
-let playerMarker = null;
+let playerMarker;
 let randomMarker = null;
 let panoLocation; //Warning: This is NOT a latLng, this is a google maps location object, which has panoLocation.latLng
 let selctedPosition;
@@ -28,8 +28,9 @@ async function initialize() {
 
   google.maps.event.addListener(map, "click", (event) => {
     console.log(event);
-    if (playerMarker != null)
+    if (playerMarker != null){
       playerMarker.setMap(null);
+    }
     selctedPosition = event.latLng
     playerMarker = new google.maps.Marker({
       position: event.latLng,
@@ -59,8 +60,10 @@ async function doPanorama() {
     fullscreenControl: false,
   });
   document.getElementById('results-screen').classList.add('hidden');
+  if (playerMarker != null) {
+    playerMarker.setMap(null);
+  }
   pano = await getPanoData(); //get next panorama data
-  playerMarker.setMap(null);
 }
 window.initMap = initialize;
 
