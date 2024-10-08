@@ -2,13 +2,12 @@ let panorama;
 let sv;
 let playerMarker = null;
 let randomMarker = null;
-let panoLocation;
+let panoLocation; //Warning: This is NOT a latLng, this is a google maps location object, which has panoLocation.latLng
 let selctedPosition;
 let distanceBetweenMarkers
 let score = 0;
 let roundCounter = 0;
 let pano; //panorama data object
-let lastPano;
 let resultMap;
 
 let PinElementRef = null;
@@ -26,6 +25,7 @@ async function initialize() {
     clickableIcons: false,
     mapId: "map",
   });
+
   google.maps.event.addListener(map, "click", (event) => {
     console.log(event);
     if (playerMarker != null)
@@ -49,17 +49,16 @@ async function initialize() {
 }
 
 async function doPanorama() {
-  processSVData(pano);
-  panoLocation = pano.data.location.latLng; //true initial location of pano
+  panoLocation = pano.data.location; //true initial location of pano
+  processSVLocation(panoLocation);
   const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
-    center: panoLocation, 
+    center: panoLocation.latLng, 
     zoom: 11,
     mapId: "debugMap",
     streetViewControl: false,
     fullscreenControl: false,
   });
   document.getElementById('results-screen').classList.add('hidden');
-  lastPano = pano;
   pano = await getPanoData(); //get next panorama data
   playerMarker.setMap(null);
 }
@@ -68,7 +67,7 @@ window.initMap = initialize;
 function computeScore(){
   const maxScore = 1000; //score value at 0 meters/100% accurate guess
   const punishmentFactor = 12; //controls how quickly the score drops off with inaccuracy, the closer to 0, the more punishing
-  const distance = google.maps.geometry.spherical.computeDistanceBetween(playerMarker.position, panoLocation);
+  const distance = google.maps.geometry.spherical.computeDistanceBetween(playerMarker.position, panoLocation.latLng);
   tempScore = maxScore/((distance/(maxScore*punishmentFactor))+1); // asymptotically goes down to 0 as distance from real guess tends to infinity, gives too high of a score for shitty guesses so need a secondary factor to take care of far-guess edge cases
   tempScore = tempScore - Math.pow(distance, 5)*Math.pow(10, -2*punishmentFactor); // high-order power that pulls down the score at extreme distances
   if (tempScore<=0) {
@@ -87,7 +86,8 @@ async function Submit() {
     score=0;
   }
   document.getElementById('results-screen').classList.remove('hidden');
-  resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 }, 6);
+  resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
+  resultMap.setZoom(7);
    if (playerMarker != null)
     playerMarker.setMap(null);
 
@@ -122,13 +122,13 @@ async function Submit() {
   });
 
   randomMarker = new AdvancedMarkerElementRef({
-    position: panoLocation,
+    position: panoLocation.latLng,
     content: pinRandomSet.element,
     map: resultMap,
   });
 
   let coordinates = [
-    panoLocation,
+    panoLocation.latLng,
     selctedPosition
   ];
 
@@ -164,8 +164,6 @@ async function initPano() {
     },
   );
   pano = await getPanoData(); //get inital panorama
-  lastPano = pano;
-
 }
 
 async function getPanoData() {
@@ -176,8 +174,7 @@ async function getPanoData() {
   return result;
 }
 
-function processSVData({ data }) {
-  const location = data.location;
+function processSVLocation(location) {
   panorama.setPano(location.pano);
   panorama.setVisible(true);
 }
