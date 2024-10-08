@@ -9,6 +9,7 @@ let score = 0;
 let roundCounter = 0;
 let pano; //panorama data object
 let resultMap;
+let selectionMap
 
 let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
@@ -18,7 +19,7 @@ async function initialize() {
   PinElementRef = PinElement;
   AdvancedMarkerElementRef = AdvancedMarkerElement;
   
-  let map = new google.maps.Map(document.getElementById("map"), {
+  selectionMap = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
     zoom: 7,
     disableDefaultUI: true,
@@ -26,7 +27,7 @@ async function initialize() {
     mapId: "map",
   });
 
-  google.maps.event.addListener(map, "click", (event) => {
+  google.maps.event.addListener(selectionMap, "click", (event) => {
     console.log(event);
     if (playerMarker != null){
       playerMarker.setMap(null);
@@ -35,7 +36,7 @@ async function initialize() {
     playerMarker = new google.maps.Marker({
       position: event.latLng,
       label: 'A',
-      map: map,
+      map: selectionMap,
     });
   });
   resultMap = new google.maps.Map(document.getElementById("results-map"), {
@@ -52,6 +53,9 @@ async function initialize() {
 async function doPanorama() {
   panoLocation = pano.data.location; //true initial location of pano
   processSVLocation(panoLocation);
+  selectionMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
+  selectionMap.setZoom(7);
+  panorama.setZoom(0);
   const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
     center: panoLocation.latLng, 
     zoom: 11,
@@ -71,6 +75,8 @@ function computeScore(){
   const maxScore = 1000; //score value at 0 meters/100% accurate guess
   const punishmentFactor = 12; //controls how quickly the score drops off with inaccuracy, the closer to 0, the more punishing
   const distance = google.maps.geometry.spherical.computeDistanceBetween(playerMarker.position, panoLocation.latLng);
+  const writtenDistance = (distance / (distance > 5000 ? 1000 : 1)).toFixed(2);
+  document.getElementById('result-text').innerText = `Tu biji ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa`
   tempScore = maxScore/((distance/(maxScore*punishmentFactor))+1); // asymptotically goes down to 0 as distance from real guess tends to infinity, gives too high of a score for shitty guesses so need a secondary factor to take care of far-guess edge cases
   tempScore = tempScore - Math.pow(distance, 5)*Math.pow(10, -2*punishmentFactor); // high-order power that pulls down the score at extreme distances
   if (tempScore<=0) {
@@ -81,10 +87,10 @@ function computeScore(){
 async function Submit() {
   score += computeScore();
   if (roundCounter < 4) {
-    document.getElementById('score').innerHTML = score.toString();
+    document.getElementById('score').innerHTML = `Punktu Skaits: ${score}`;
     roundCounter+=1;
   } else {
-    document.getElementById('score').innerHTML = "Final score: " + score.toString();
+    document.getElementById('score').innerHTML = `Rezultāts: ${score}`;
     roundCounter=0; //After 5 rounds, reset
     score=0;
   }
