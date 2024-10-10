@@ -79,9 +79,12 @@ function computeScore(){
   document.getElementById('result-text').innerText = `Tu biji ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa`
   tempScore = maxScore/((distance/(maxScore*punishmentFactor))+1); // asymptotically goes down to 0 as distance from real guess tends to infinity, gives too high of a score for shitty guesses so need a secondary factor to take care of far-guess edge cases
   tempScore = tempScore - Math.pow(distance, 5)*Math.pow(10, -2*punishmentFactor); // high-order power that pulls down the score at extreme distances
-  if (tempScore<=0) {
+  if (distance<50) {
+    return 1000;
+  }
+  else if (tempScore<=0) {
     return 0;
-  } else return Math.ceil(tempScore);
+  } else return Math.ceil(tempScore); //handle special cases
 }
 
 async function Submit() {
