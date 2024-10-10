@@ -9,7 +9,9 @@ let score = 0;
 let roundCounter = 0;
 let pano; //panorama data object
 let resultMap;
-let selectionMap
+let selectionMap;
+let debugFlag = false;
+let debugMap;
 
 let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
@@ -55,18 +57,10 @@ async function doPanorama() {
   processSVLocation(panoLocation);
   selectionMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
   selectionMap.setZoom(7);
+  if (debugFlag) debugMap.setCenter(panoLocation.latLng);
   panorama.setZoom(0);
-  const debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
-    center: panoLocation.latLng, 
-    zoom: 11,
-    mapId: "debugMap",
-    streetViewControl: false,
-    fullscreenControl: false,
-  });
   document.getElementById('results-screen').classList.add('hidden');
-  if (playerMarker != null) {
-    playerMarker.setMap(null);
-  }
+  if (playerMarker != null) playerMarker.setMap(null);
   pano = await getPanoData(); //get next panorama data
 }
 window.initMap = initialize;
@@ -159,8 +153,22 @@ async function Submit() {
 }
 
 function toggleDebugMap() {
+  initDbg();
   document.getElementById('debugMap').classList.contains('hidden') ? document.getElementById('debugMap').classList.remove('hidden') : document.getElementById('debugMap').classList.add('hidden');
   document.getElementById('debugButton').classList.contains('hidden') ? document.getElementById('debugButton').classList.remove('hidden') : document.getElementById('debugButton').classList.add('hidden');
+}
+
+function initDbg() {
+  if (!debugFlag) {
+    debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
+      center: panoLocation.latLng, 
+      zoom: 11,
+      mapId: "debugMap",
+      streetViewControl: false,
+      fullscreenControl: false,
+    });
+    debugFlag = true;
+  }
 }
 
 async function initPano() {
