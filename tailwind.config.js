@@ -4,7 +4,7 @@ export default {
   theme: {
     fontFamily: {
       'open-sans': ['"Open Sans"', 'sans-serif'],
-      'nabla': ['Nabla', 'sans-serif']
+      'honk': ["Honk", 'sans-serif']
     },
     extend: {},
   },

@@ -26,3 +26,13 @@ html,body {
     filter: brightness(60%);
     @apply absolute z-[-1] top-0 left-0 h-full w-full opacity-80;
 }
+
+.font-nabla {
+    font-family: "Nabla", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "EDPT" 100,
+        "EHLT" 12;
+}
