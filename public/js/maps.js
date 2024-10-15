@@ -207,9 +207,17 @@ async function initPano() {
 
 async function getPanoData() {
   const pos = getCoords();
-  const result = await sv.getPanorama({location: pos, radius: 100, source: "outdoor"}).catch((e) => 
-    getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
-  );
+  let result;
+  if (roundCounter==0) {
+    result = await sv.getPanorama({location: pos, radius: 200, source: "outdoor"}).catch((e) => 
+      getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
+    );
+  } else {
+    result = await sv.getPanorama({location: pos, radius: 50, source: "outdoor"}).catch((e) => 
+      getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
+    );
+  }
+  
   return result;
 }
 
