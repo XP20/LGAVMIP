@@ -50,6 +50,22 @@ async function initialize() {
   });
   await initPano();
   doPanorama();
+  beginTimer();
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function beginTimer() {
+  let secondsRemaining = 120;
+  while (true) {;
+    console.log(secondsRemaining);
+    document.getElementById('timer').innerText = "Sekundes atlikušas: " + secondsRemaining;
+    secondsRemaining -=1
+    if (secondsRemaining == 0) break;
+    await sleep(1000);
+  }
 }
 
 async function doPanorama() {
