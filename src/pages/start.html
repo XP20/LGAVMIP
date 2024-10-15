@@ -40,15 +40,18 @@
       <div class="mx-auto mt-5 mb-auto text-4xl font-open-sans font-bold">
         Rezultāti
       </div>
-      <div id="result-text" class="flex w-auto h-auto justify-center text-nowrap mx-60 my-5 font-honk">
+      <div id="result-text" class="flex w-auto h-auto justify-center text-nowrap mx-60 my-5 font-open-sans text-3xl">
         tekstiņš
       </div>
       <span class="w-full h-full px-14 py-4">
         <div id="results-map" class="w-full h-full rounded-xl"></div>
       </span>
-      <button class="mx-auto mb-8 border-2 border-pink-950 bg-pink-200 px-2 py-0.5 rounded-xl text-2xl font-open-sans font-bold text-pink-900" onclick="doPanorama()">
+      <span class="mx-auto mb-8">
+        <a id="returnToTitleScreenButton" href="/" class="hidden border-2 border-red-950 bg-red-200 px-2 py-0.5 rounded-xl text-2xl font-open-sans font-bold text-red-900">Atgriezties uz sākumlapu</a>
+        <button id="nextButton" class="border-2 border-pink-950 bg-pink-200 px-2 py-0.5 rounded-xl text-2xl font-open-sans font-bold text-pink-900" onclick="doPanorama()">
         Nākošais
-      </button>
+        </button>
+      </span>
     </span>
     <!-- 
       The `defer` attribute causes the script to execute after the full HTML

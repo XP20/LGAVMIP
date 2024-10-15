@@ -19,8 +19,7 @@ let AdvancedMarkerElementRef = null;
 async function initialize() {
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
   PinElementRef = PinElement;
-  AdvancedMarkerElementRef = AdvancedMarkerElement;
-  
+  AdvancedMarkerElementRef = AdvancedMarkerElement;  
   selectionMap = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
     zoom: 7,
@@ -62,6 +61,8 @@ async function doPanorama() {
   document.getElementById('results-screen').classList.add('hidden');
   if (playerMarker != null) playerMarker.setMap(null);
   pano = await getPanoData(); //get next panorama data
+  document.getElementById('nextButton').innerText = `Nākošais`;
+  document.getElementById('returnToTitleScreenButton').classList.add('hidden');
 }
 window.initMap = initialize;
 
@@ -70,9 +71,9 @@ function computeScore(){
   const punishmentFactor = 12; //controls how quickly the score drops off with inaccuracy, the closer to 0, the more punishing
   const distance = google.maps.geometry.spherical.computeDistanceBetween(playerMarker.position, panoLocation.latLng);
   const writtenDistance = (distance / (distance > 5000 ? 1000 : 1)).toFixed(2);
-  document.getElementById('result-text').innerText = `Tu biji ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa`
   tempScore = maxScore/((distance/(maxScore*punishmentFactor))+1); // asymptotically goes down to 0 as distance from real guess tends to infinity, gives too high of a score for shitty guesses so need a secondary factor to take care of far-guess edge cases
   tempScore = tempScore - Math.pow(distance, 5)*Math.pow(10, -2*punishmentFactor); // high-order power that pulls down the score at extreme distances
+  document.getElementById('result-text').innerText = `Tu biji ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa un ieguvāt ${tempScore < 0 ? "0" : tempScore.toFixed(0)} punktu`
   if (distance<50) {
     return 1000;
   }
@@ -90,6 +91,8 @@ async function Submit() {
     document.getElementById('score').innerHTML = `Rezultāts: ${score}`;
     roundCounter=0; //After 5 rounds, reset
     score=0;
+    document.getElementById('returnToTitleScreenButton').classList.remove('hidden');
+    document.getElementById('nextButton').innerText = `Sākt no jauna`;
   }
   document.getElementById('results-screen').classList.remove('hidden');
   resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
