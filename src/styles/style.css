@@ -23,5 +23,6 @@ html,body {
     content: "";
     background: url('/public/latvia.svg');
     background-size: 100% 100%;
-    @apply absolute z-[-1] top-0 left-0 h-full w-full opacity-50;
+    filter: brightness(60%);
+    @apply absolute z-[-1] top-0 left-0 h-full w-full opacity-80;
 }
