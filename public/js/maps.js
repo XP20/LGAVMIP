@@ -59,7 +59,6 @@ function sleep(ms) {
 async function beginTimer() {
   let secondsRemaining = 120;
   while (true) {;
-    console.log(secondsRemaining);
     document.getElementById('timer').innerText = "Sekundes atlikušas: " + secondsRemaining;
     secondsRemaining -=1
     if (secondsRemaining == 0) break;
@@ -202,15 +201,15 @@ async function initPano() {
       showRoadLabels: false
     },
   );
-  pano = await getPanoData(); //get inital panorama
+  pano = await getPanoData(true); //get inital panorama
 }
 
-async function getPanoData() {
+async function getPanoData(firstTime = false) {
   const pos = getCoords();
   let result;
-  if (roundCounter==0) {
+  if (firstTime) {
     result = await sv.getPanorama({location: pos, radius: 200, source: "outdoor"}).catch((e) => 
-      getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
+      getPanoData(true), //hacky solution, if pano isn't found, recursively generate new location
     );
   } else {
     result = await sv.getPanorama({location: pos, radius: 50, source: "outdoor"}).catch((e) => 
