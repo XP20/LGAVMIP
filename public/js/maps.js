@@ -12,6 +12,7 @@ let resultMap;
 let selectionMap;
 let debugFlag = false;
 let debugMap;
+let gettingPano = false;
 
 let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
@@ -67,6 +68,11 @@ async function beginTimer() {
 }
 
 async function doPanorama() {
+  if (gettingPano) {
+    await sleep(100);
+    doPanorama();
+    return;
+  } //wait if last pano get job isn't complete, retry every 100ms
   panoLocation = pano.data.location; //true initial location of pano
   processSVLocation(panoLocation);
   selectionMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
@@ -78,7 +84,6 @@ async function doPanorama() {
   document.getElementById('nextButton').innerText = `Nākošais`;
   document.getElementById('returnToTitleScreenButton').classList.add('hidden');
   pano = await getPanoData(); //get next panorama data
-
 }
 window.initMap = initialize;
 
@@ -206,6 +211,7 @@ async function initPano() {
 }
 
 async function getPanoData(firstTime = false) {
+  gettingPano = true;
   const pos = getCoords();
   let result;
   if (firstTime) {
@@ -217,7 +223,7 @@ async function getPanoData(firstTime = false) {
       getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
     );
   }
-  
+  gettingPano = false;
   return result;
 }
 
