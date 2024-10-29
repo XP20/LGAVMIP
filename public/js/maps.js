@@ -75,9 +75,10 @@ async function doPanorama() {
   panorama.setZoom(0);
   document.getElementById('results-screen').classList.add('hidden');
   if (playerMarker != null) playerMarker.setMap(null);
-  pano = await getPanoData(); //get next panorama data
   document.getElementById('nextButton').innerText = `Nākošais`;
   document.getElementById('returnToTitleScreenButton').classList.add('hidden');
+  pano = await getPanoData(); //get next panorama data
+
 }
 window.initMap = initialize;
 
@@ -103,7 +104,7 @@ async function Submit() {
     document.getElementById('score').innerHTML = `Punktu Skaits: ${score}`;
     roundCounter+=1;
   } else {
-    document.getElementById('score').innerHTML = `Rezultāts: ${score}`;
+    document.getElementById('score').innerHTML = `Punktu Skaits`;
     roundCounter=0; //After 5 rounds, reset
     score=0;
     document.getElementById('returnToTitleScreenButton').classList.remove('hidden');
