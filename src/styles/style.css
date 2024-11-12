@@ -16,7 +16,7 @@ html,body {
 }
 
 .HoveringOverMap:hover, .HoveringOverMap:hover ~ #map-blur {
-    @apply opacity-100 w-2/5 h-3/6;
+    @apply opacity-100 w-3/5 h-2/3 delay-150;
 }
 
 .bg-latvia::before {
@@ -25,4 +25,8 @@ html,body {
     background-size: 100% 100%;
     filter: brightness(60%);
     @apply absolute z-[-1] top-0 left-0 h-full w-full opacity-80;
+}
+
+#inputs > input {
+    @apply border-b-4 border-black text-6xl w-16 text-center uppercase mx-2 mb-80;
 }

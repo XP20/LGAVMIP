@@ -81,8 +81,7 @@ async function doPanorama() {
   panorama.setZoom(0);
   document.getElementById('results-screen').classList.add('hidden');
   if (playerMarker != null) playerMarker.setMap(null);
-  document.getElementById('nextButton').innerText = `Nākošais`;
-  document.getElementById('returnToTitleScreenButton').classList.add('hidden');
+  document.getElementById('GoToEndButton').classList.add('hidden');
   pano = await getPanoData(); //get next panorama data
 }
 window.initMap = initialize;
@@ -94,13 +93,11 @@ function computeScore(){
   const writtenDistance = (distance / (distance > 5000 ? 1000 : 1)).toFixed(2);
   tempScore = maxScore/((distance/(maxScore*punishmentFactor))+1); // asymptotically goes down to 0 as distance from real guess tends to infinity, gives too high of a score for shitty guesses so need a secondary factor to take care of far-guess edge cases
   tempScore = tempScore - Math.pow(distance, 5)*Math.pow(10, -2*punishmentFactor); // high-order power that pulls down the score at extreme distances
-  document.getElementById('result-text').innerText = `Tu biji ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa un ieguvāt ${tempScore < 0 ? "0" : tempScore.toFixed(0)} punktu`
-  if (distance<50) {
-    return 1000;
-  }
-  else if (tempScore<=0) {
-    return 0;
-  } else return Math.ceil(tempScore); //handle special cases
+  if (tempScore<0) tempScore=0;
+  score = Math.ceil(tempScore);
+  if (distance<50) score = 1000;
+  document.getElementById('result-text').innerText = `Tu biji ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa un ieguvāt ${score} punktu`
+  return score; //handle special cases
 }
 
 async function Submit() {
@@ -110,10 +107,11 @@ async function Submit() {
     roundCounter+=1;
   } else {
     document.getElementById('score').innerHTML = `Punktu Skaits`;
+    document.getElementById('result-text').innerText += '\n\rBeidzamais punktu skaits: ' + score;
     roundCounter=0; //After 5 rounds, reset
     score=0;
-    document.getElementById('returnToTitleScreenButton').classList.remove('hidden');
-    document.getElementById('nextButton').innerText = `Sākt no jauna`;
+    document.getElementById('GoToEndButton').classList.remove('hidden');
+    document.getElementById('nextButton').classList.add('hidden');
   }
   document.getElementById('results-screen').classList.remove('hidden');
   resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 });

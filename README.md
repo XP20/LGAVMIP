@@ -3,10 +3,14 @@ Latvijas Ģeogrāfiskās Atrašanās Vietas Minēšanas Informātikas Projekts
 
 ---
 
-## Projekta "Prasību analīze un idejas formulējums"
+### Projekta "Prasību analīze un idejas formulējums"
 https://docs.google.com/document/d/1FTJm0lDJMQxkHQZfTOuoOaIzUb5TJsB8RjPoKEviHZo/edit?usp=sharing
 
-http://thefun.ddns.net (uptime nav garantēts)
+### Projekta "Programmatūras prasību specifikācija un izstrādes plāns"
+https://docs.google.com/document/d/1mYGek4Qedw6ZNOUMGR09Zu7YD_mrPq3Sac_xmqPlq5w/edit?usp=sharing
+
+### Mājaslapas priekšskatījums (uptime nav garantēts)
+http://thefun.ddns.net
 
 ## Problēmas izpēte
 

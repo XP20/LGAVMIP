@@ -6,6 +6,7 @@ import { serveStatic } from 'hono/bun';
 const routesPages = new Hono()
     .get('/', serveStatic({ path: './src/pages/index.html' }))
     .get('/start', serveStatic({ path: './src/pages/start.html' }))
+    .get('/result', serveStatic({ path: './src/pages/endscreen.html' }))
 
 
 export default routesPages;
