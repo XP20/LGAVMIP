@@ -19,6 +19,14 @@ html,body {
     @apply opacity-100 w-3/5 h-2/3 delay-150;
 }
 
+.HoveringOverMap .GrowWithMap {
+    @apply transition-all;
+}
+
+.HoveringOverMap:hover .GrowWithMap {
+    @apply text-3xl delay-150 duration-500;
+}
+
 .bg-latvia::before {
     content: "";
     background: url('/public/latvia.svg');
