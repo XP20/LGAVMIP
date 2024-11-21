@@ -20,11 +20,11 @@ html,body {
 }
 
 .HoveringOverMap .GrowWithMap {
-    @apply transition-all;
+    @apply transition-all delay-150 duration-500;
 }
 
 .HoveringOverMap:hover .GrowWithMap {
-    @apply text-3xl delay-150 duration-500;
+    @apply text-3xl;
 }
 
 .bg-latvia::before {
