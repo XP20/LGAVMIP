@@ -12,11 +12,11 @@ html,body {
 
 
 .HoveringOverMap, #map-blur {
-    @apply transition-all duration-500;
+    @apply transition-all duration-500 delay-150;
 }
 
 .HoveringOverMap:hover, .HoveringOverMap:hover ~ #map-blur {
-    @apply opacity-100 w-3/5 h-2/3 delay-150;
+    @apply opacity-100 w-3/5 h-2/3;
 }
 
 .bg-latvia::before {
