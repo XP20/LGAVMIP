@@ -13,6 +13,7 @@ let selectionMap;
 let debugFlag = false;
 let debugMap;
 let gettingPano = false;
+let redpill = true; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
 
 let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
@@ -50,7 +51,7 @@ async function initialize() {
   });
   await initPano();
   doPanorama();
-  beginTimer();
+  if (redpill) beginTimer();
 }
 
 function sleep(ms) {
@@ -96,7 +97,7 @@ function computeScore(){
   if (tempScore<0) tempScore=0;
   score = Math.ceil(tempScore);
   if (distance<50) score = 1000;
-  document.getElementById('result-text').innerText = `Tu biji ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa un ieguvāt ${score} punktu`
+  document.getElementById('result-text').innerText = `Jūs bijāt ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa un ieguvāt ${score} punktu`
   return score; //handle special cases
 }
 
@@ -110,8 +111,10 @@ async function Submit() {
     document.getElementById('result-text').innerText += '\n\rBeidzamais punktu skaits: ' + score;
     roundCounter=0; //After 5 rounds, reset
     score=0;
-    document.getElementById('GoToEndButton').classList.remove('hidden');
-    document.getElementById('nextButton').classList.add('hidden');
+    if (redpill) {
+      document.getElementById('GoToEndButton').classList.remove('hidden');
+      document.getElementById('nextButton').classList.add('hidden');
+    }
   }
   document.getElementById('results-screen').classList.remove('hidden');
   resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
