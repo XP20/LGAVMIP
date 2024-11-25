@@ -10,7 +10,7 @@ let roundCounter = 0;
 let pano; //panorama data object
 let resultMap;
 let selectionMap;
-let debugFlag = false;
+let debugMapEnabled = false;
 let debugMap;
 let gettingPano = false;
 let redpill = false; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
@@ -85,7 +85,7 @@ async function doPanorama() {
   processSVLocation(panoLocation);
   selectionMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
   selectionMap.setZoom(7);
-  if (debugFlag) debugMap.setCenter(panoLocation.latLng);
+  if (debugMapEnabled) debugMap.setCenter(panoLocation.latLng);
   panorama.setZoom(0);
   document.getElementById('results-screen').classList.add('hidden');
   if (playerMarker != null) playerMarker.setMap(null);
@@ -191,7 +191,7 @@ function toggleDebugMap() {
 }
 
 function initDbg() {
-  if (!debugFlag) {
+  if (!debugMapEnabled) {
     debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
       center: panoLocation.latLng, 
       zoom: 11,
@@ -199,7 +199,7 @@ function initDbg() {
       streetViewControl: false,
       fullscreenControl: false,
     });
-    debugFlag = true;
+    debugMapEnabled = true;
   }
 }
 
