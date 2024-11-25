@@ -13,7 +13,7 @@ let selectionMap;
 let debugFlag = false;
 let debugMap;
 let gettingPano = false;
-let redpill = true; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
+let redpill = false; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
 
 let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
@@ -51,7 +51,14 @@ async function initialize() {
   });
   await initPano();
   doPanorama();
-  if (redpill) beginTimer();
+  let urlParams = new URLSearchParams(window.location.search);
+  if ((urlParams.get('mode')=='redpill' || window.location.href.includes('localhost')) && !(urlParams.get('mode')=='prod')) initUnfinishedOrDebugFeatures(); //check if running in dev or prod environment
+}
+
+function initUnfinishedOrDebugFeatures(params) {
+  redpill = true;
+  beginTimer();
+  document.getElementById('debugMapEnablerButton').classList.remove('hidden');
 }
 
 function sleep(ms) {
