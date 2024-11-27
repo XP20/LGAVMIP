@@ -61,31 +61,32 @@ async function initialize() {
 function initUnfinishedOrDebugFeatures(params) {
   redpill = true;
   beginTimer();
-  beginMultiplayerKeepalive();
+  beginMultiplayer();
   document.getElementById('debugMapEnablerButton').classList.remove('hidden');
 }
 
-async function beginMultiplayerKeepalive(){
-  setInterval(async () => {
+async function beginMultiplayer(){
+  let opponentData;
+  document.getElementById('opponentScore').classList.remove('hidden');
+  await setInterval(async () => {
     const res = await fetch('/api/MP', {
       method: "POST",
       body: JSON.stringify({id:sessionID, score:score})
     });
     if (res.ok) {
       const data = await res.json();
-      
       console.log(data);
     }
-    const res2 = await fetch('/api/MP/'+opponentID, {
+    const opponentRes = await fetch('/api/MP/'+opponentID, {
       method: "GET"
     });
-    if (res2.ok) {
-      const data2 = await res2.json();
-      
-      console.log(data2);
+    if (opponentRes.ok) {
+      opponentData = await opponentRes.json();
+      console.log(opponentData);
+      if (opponentData.score!=undefined) document.getElementById('opponentScore').innerText = 'Pretinieka punktu skaits: '+opponentData.score;
+      else document.getElementById('opponentScore').innerText = "Nav savienojuma ar pretinieku..."
     }
-
-  }, 2000);
+  }, 500);
 }
 
 
@@ -138,9 +139,9 @@ async function computeScore(){
   return score; //handle special cases
 }
 
-async function Submit() {
+async function Submit(opponentFinishCondition = false) {
   score += await computeScore();
-  if (roundCounter < 4) {
+  if (roundCounter < 4 && !opponentFinishCondition) {
     document.getElementById('score').innerHTML = `Punktu Skaits: ${score}`;
     roundCounter+=1;
   } else {

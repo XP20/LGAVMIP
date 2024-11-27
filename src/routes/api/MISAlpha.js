@@ -7,8 +7,9 @@ const apiMP = new Hono()
     .post('/', async (c) => {
         const body = await c.req.json();
         const { id, score } = body;
-        dataStore[id] = score;
-
+        let winState = 0;
+        let recieveTime = Date.now()
+        dataStore[id] = [score, winState, recieveTime];
         // Create a response message
         const message = `Stored score for ID ${id}: ${score}`;
         const response = { message, scores: dataStore[id] };
@@ -17,10 +18,8 @@ const apiMP = new Hono()
     })
     .get('/:id', async (c) => {
         const id = parseInt(c.req.param('id'));
-
-        // Retrieve scores for the given ID
-        const score = dataStore[id];
-
+        if (Date.now()-dataStore[id][2]>10000) dataStore[id][0] = undefined; //timeout if connection lost
+        const score = dataStore[id][0];
         return c.json({ id, score });
     });
 
