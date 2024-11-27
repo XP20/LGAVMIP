@@ -13,6 +13,8 @@ let selectionMap;
 let debugMapEnabled = false;
 let debugMap;
 let gettingPano = false;
+let sessionID = 0;
+let opponentID = 0;
 let redpill = false; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
 
 let PinElementRef = null;
@@ -31,7 +33,6 @@ async function initialize() {
   });
 
   google.maps.event.addListener(selectionMap, "click", (event) => {
-    console.log(event);
     if (playerMarker != null){
       playerMarker.setMap(null);
     }
@@ -52,14 +53,41 @@ async function initialize() {
   await initPano();
   doPanorama();
   let urlParams = new URLSearchParams(window.location.search);
+  sessionID = urlParams.get('id');
+  opponentID = urlParams.get('opponent');
   if ((urlParams.get('mode')=='redpill' || window.location.href.includes('localhost')) && !(urlParams.get('mode')=='prod')) initUnfinishedOrDebugFeatures(); //check if running in dev or prod environment
 }
 
 function initUnfinishedOrDebugFeatures(params) {
   redpill = true;
   beginTimer();
+  beginMultiplayerKeepalive();
   document.getElementById('debugMapEnablerButton').classList.remove('hidden');
 }
+
+async function beginMultiplayerKeepalive(){
+  setInterval(async () => {
+    const res = await fetch('/api/MP', {
+      method: "POST",
+      body: JSON.stringify({id:sessionID, score:score})
+    });
+    if (res.ok) {
+      const data = await res.json();
+      
+      console.log(data);
+    }
+    const res2 = await fetch('/api/MP/'+opponentID, {
+      method: "GET"
+    });
+    if (res2.ok) {
+      const data2 = await res2.json();
+      
+      console.log(data2);
+    }
+
+  }, 2000);
+}
+
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -103,7 +131,6 @@ async function computeScore(){
   if (res.ok) {
     const data = await res.json();
     
-    console.log('backend response: ', data);
     score = data.score;
   }
   const writtenDistance = (distance / (distance > 5000 ? 1000 : 1)).toFixed(2);
