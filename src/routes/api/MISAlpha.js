@@ -18,9 +18,22 @@ const apiMP = new Hono()
     })
     .get('/:id', async (c) => {
         const id = parseInt(c.req.param('id'));
-        if (Date.now()-dataStore[id][2]>10000) dataStore[id][0] = undefined; //timeout if connection lost
-        const score = dataStore[id][0];
+        let score;
+        if (dataStore[id]!=undefined) {
+            if (Date.now()-dataStore[id][2]>10000) dataStore[id] = undefined; //timeout if connection lost
+            score = dataStore[id][0];
+        } else score = undefined;
         return c.json({ id, score });
+    })
+    .get('/assignid/:id', async (c) => { //Why the fuck doesnt this work if it's just /assignid/? needs a fake id that diesn't get used otherwise frontend sees id:undefined rather than assignedID:(id) 
+        let assignedID;
+        for (let index = 0; index < dataStore.length+1; index++) {
+            if (dataStore[index] == undefined) {
+                assignedID = index;
+                break;
+            }
+        }
+        return c.json({assignedID});
     });
 
 export default apiMP;

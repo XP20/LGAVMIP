@@ -68,6 +68,11 @@ function initUnfinishedOrDebugFeatures(params) {
 async function beginMultiplayer(){
   let opponentData;
   document.getElementById('opponentScore').classList.remove('hidden');
+  const idRes = await fetch('/api/MP/assignid/a', {method: "GET"});
+  if (idRes.ok) {
+    idJson = await idRes.json();
+    console.log(idJson);
+  }
   await setInterval(async () => {
     const res = await fetch('/api/MP', {
       method: "POST",
@@ -86,7 +91,7 @@ async function beginMultiplayer(){
       if (opponentData.score!=undefined) document.getElementById('opponentScore').innerText = 'Pretinieka punktu skaits: '+opponentData.score;
       else document.getElementById('opponentScore').innerText = "Nav savienojuma ar pretinieku..."
     }
-  }, 500);
+  }, 5000);
 }
 
 
