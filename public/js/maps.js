@@ -14,7 +14,7 @@ let debugMapEnabled = false;
 let debugMap;
 let gettingPano = false;
 let sessionID;
-let opponentID = -1;
+let opponentID;
 let redpill = false; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
 
 let PinElementRef = null;
@@ -51,7 +51,7 @@ async function initialize() {
     mapId: "resultMap"
   });
   let urlParams = new URLSearchParams(window.location.search);
-  opponentID = urlParams.get('opponent');
+  if (urlParams.has('opponent')) opponentID = urlParams.get('opponent');
   if ((urlParams.get('mode')=='redpill' || window.location.href.includes('localhost')) && !(urlParams.get('mode')=='prod')) initUnfinishedOrDebugFeatures(); //check if running in dev or prod environment
   await initPano();
   doPanorama();
@@ -64,18 +64,24 @@ function initUnfinishedOrDebugFeatures(params) {
   document.getElementById('debugMapEnablerButton').classList.remove('hidden');
 }
 
-async function beginMultiplayer(){
+async function beginMultiplayer(makeNewSession=false){
   let opponentData;
   document.getElementById('multiplayerEnableButton').classList.add('hidden');
   document.getElementById('opponentScore').classList.remove('hidden');
-  const idRes = await fetch('/api/MP/assignid/a', {method: "GET"});
+  document.getElementById('sessionID').classList.remove('hidden');
+  // if (opponentID==-1 && !makeNewSession) {
+  //   document.getElementById('sessionID').innerText = 'Kļūda. Lūdzu, spēles adreses laukam pievienojiet "&opponent=(pretinieka spēlētāja kods) vai izveidojiet jaunu spēles sesiju"';
+  //   document.getElementById('sessionID').classList.remove('hidden');
+  //   document.getElementById('multiplayerNewGame').classList.remove('hidden');
+  //   return;
+  // }
+  const idRes = await fetch('/api/MP/assignid/', {method: "GET"});
   if (idRes.ok) {
     idJson = await idRes.json();
     console.log(idJson);
     sessionID = idJson.assignedID;
-    document.getElementById('sessionID').innerText = "Spēles sesijas kods: "+sessionID;
-    document.getElementById('sessionID').classList.remove('hidden');  
-  }
+  } 
+  document.getElementById('sessionID').innerText = "Spēlētāja kods: "+sessionID;
   await setInterval(async () => {
     const res = await fetch('/api/MP', {
       method: "POST",

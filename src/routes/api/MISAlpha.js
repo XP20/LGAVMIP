@@ -28,7 +28,7 @@ const apiMP = new Hono()
         } else score = undefined;
         return c.json({ id, score });
     })
-    .get('/assignid/:id', async (c) => { //Why the fuck doesnt this work if it's just /assignid/? needs a fake id that diesn't get used otherwise frontend sees id:undefined rather than assignedID:(id) 
+    .get('/assignid/', async (c) => {  
         let assignedID;
         for (let index = 0; index < dataStore.length+1; index++) {
             if (dataStore[index] == undefined) {
