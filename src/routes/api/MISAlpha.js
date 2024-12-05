@@ -20,8 +20,11 @@ const apiMP = new Hono()
         const id = parseInt(c.req.param('id'));
         let score;
         if (dataStore[id]!=undefined) {
-            if (Date.now()-dataStore[id][2]>10000) dataStore[id] = undefined; //timeout if connection lost
             score = dataStore[id][0];
+            if (Date.now()-dataStore[id][2]>10000) {
+                dataStore[id] = undefined; //timeout if connection lost
+                score = undefined;
+            }
         } else score = undefined;
         return c.json({ id, score });
     })

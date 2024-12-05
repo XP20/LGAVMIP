@@ -32,11 +32,17 @@
       <div id="opponentScore" class="hidden absolute right-10 top-20 z-10 p-1 rounded-xl text-3xl font-bold font-honk bg-latvia overflow-hidden">
         Nav savienojuma ar pretinieku...
       </div>
+      <div id="sessionID" class="hidden absolute right-10 top-36 z-10 p-1 rounded-xl text-3xl font-bold font-honk bg-latvia overflow-hidden">
+        Spēles sesijas kods: 
+      </div>
       <button id="returnButton" class="shadow-blue-950 shadow-md absolute bottom-8 left-6 z-10 bg-blue-800 px-1 py-3 rounded-md text-xl text-white font-open-sans font-bold transition-all hover:shadow-lg hover:shadow-blue-950 hover:scale-110 delay-150 duration-300" onclick="processSVLocation(panoLocation)">
         Atgriezties sākuma pozīcijā
       </button>
       <button id="debugMapEnablerButton" class="hidden absolute bottom-28 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="toggleDebugMap()">
-        Atkļūdošanas režīms
+        Atkļūdošanas karte
+      </button>
+      <button id="multiplayerEnableButton" class="hidden absolute bottom-48 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="beginMultiplayer()">
+        LGAVMIP deathmatch
       </button>
       <button id="debugButton" class="hidden absolute bottom-48 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="doPanorama()">
         atkļūdošās lokācijas ģenerātors
@@ -67,7 +73,7 @@
       for more information.
       -->
     <script async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR2vZxJtZoOZ_XVx2ktlm2NdHbIzljrzU&callback=initialize&v=weekly&loading=async"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNVC-vILLbuJ8EmTVFHYHL7fSM-CVmBZo&callback=initialize&v=weekly&loading=async"
     ></script>
   </body>
 </html>

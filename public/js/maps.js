@@ -13,8 +13,8 @@ let selectionMap;
 let debugMapEnabled = false;
 let debugMap;
 let gettingPano = false;
-let sessionID = 0;
-let opponentID = 0;
+let sessionID;
+let opponentID = -1;
 let redpill = false; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
 
 let PinElementRef = null;
@@ -50,28 +50,31 @@ async function initialize() {
     clickableIcons: false,
     mapId: "resultMap"
   });
-  await initPano();
-  doPanorama();
   let urlParams = new URLSearchParams(window.location.search);
-  sessionID = urlParams.get('id');
   opponentID = urlParams.get('opponent');
   if ((urlParams.get('mode')=='redpill' || window.location.href.includes('localhost')) && !(urlParams.get('mode')=='prod')) initUnfinishedOrDebugFeatures(); //check if running in dev or prod environment
+  await initPano();
+  doPanorama();
 }
 
 function initUnfinishedOrDebugFeatures(params) {
   redpill = true;
   beginTimer();
-  beginMultiplayer();
+  document.getElementById('multiplayerEnableButton').classList.remove('hidden');
   document.getElementById('debugMapEnablerButton').classList.remove('hidden');
 }
 
 async function beginMultiplayer(){
   let opponentData;
+  document.getElementById('multiplayerEnableButton').classList.add('hidden');
   document.getElementById('opponentScore').classList.remove('hidden');
   const idRes = await fetch('/api/MP/assignid/a', {method: "GET"});
   if (idRes.ok) {
     idJson = await idRes.json();
     console.log(idJson);
+    sessionID = idJson.assignedID;
+    document.getElementById('sessionID').innerText = "Spēles sesijas kods: "+sessionID;
+    document.getElementById('sessionID').classList.remove('hidden');  
   }
   await setInterval(async () => {
     const res = await fetch('/api/MP', {
@@ -91,7 +94,7 @@ async function beginMultiplayer(){
       if (opponentData.score!=undefined) document.getElementById('opponentScore').innerText = 'Pretinieka punktu skaits: '+opponentData.score;
       else document.getElementById('opponentScore').innerText = "Nav savienojuma ar pretinieku..."
     }
-  }, 5000);
+  }, 1000);
 }
 
 
@@ -136,12 +139,11 @@ async function computeScore(){
   });
   if (res.ok) {
     const data = await res.json();
-    
     score = data.score;
   }
   const writtenDistance = (distance / (distance > 5000 ? 1000 : 1)).toFixed(2);
   document.getElementById('result-text').innerText = `Jūs bijāt ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa un ieguvāt ${score} punktu`
-  return score; //handle special cases
+  return score; 
 }
 
 async function Submit(opponentFinishCondition = false) {
