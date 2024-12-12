@@ -44,8 +44,12 @@
       <button id="multiplayerEnableButton" class="hidden absolute bottom-48 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="beginMultiplayer(false)">
         LGAVMIP deathmatch
       </button>
-      <button id="multiplayerNewGame" class="hidden absolute bottom-48 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="beginMultiplayer(true)">
-        Izveidot jaunu spēles sesiju
+      <input type="number" id="opponentInput" class="hidden absolute bottom-48 left-4 w-32 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl">
+      <button id="multiplayerConnect" class="hidden absolute bottom-48 left-36 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="beginMultiplayer()">
+        Savienoties
+      </button>
+      <button id="multiplayerNewGame" class="hidden absolute bottom-48 left-72 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="beginMultiplayer(true)">
+        Izveidot jaunu spēli
       </button>
       <button id="debugButton" class="hidden absolute bottom-48 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="doPanorama()">
         atkļūdošās lokācijas ģenerātors

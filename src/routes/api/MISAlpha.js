@@ -21,7 +21,7 @@ const apiMP = new Hono()
         let score;
         if (dataStore[id]!=undefined) {
             score = dataStore[id][0];
-            if (Date.now()-dataStore[id][2]>10000) {
+            if (Date.now()-dataStore[id][2]>60000) {
                 dataStore[id] = undefined; //timeout if connection lost
                 score = undefined;
             }
@@ -33,6 +33,7 @@ const apiMP = new Hono()
         for (let index = 0; index < dataStore.length+1; index++) {
             if (dataStore[index] == undefined) {
                 assignedID = index;
+                dataStore[index] = [0, 0, Date.now()]; // to prevent one id being assigned to 2 players
                 break;
             }
         }

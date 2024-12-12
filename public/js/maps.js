@@ -51,7 +51,6 @@ async function initialize() {
     mapId: "resultMap"
   });
   let urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has('opponent')) opponentID = urlParams.get('opponent');
   if ((urlParams.get('mode')=='redpill' || window.location.href.includes('localhost')) && !(urlParams.get('mode')=='prod')) initUnfinishedOrDebugFeatures(); //check if running in dev or prod environment
   await initPano();
   doPanorama();
@@ -64,25 +63,37 @@ function initUnfinishedOrDebugFeatures(params) {
   document.getElementById('debugMapEnablerButton').classList.remove('hidden');
 }
 
-async function beginMultiplayer(makeNewSession=false){
-  let opponentData;
-  document.getElementById('multiplayerEnableButton').classList.add('hidden');
-  document.getElementById('opponentScore').classList.remove('hidden');
-  document.getElementById('sessionID').classList.remove('hidden');
-  // if (opponentID==-1 && !makeNewSession) {
-  //   document.getElementById('sessionID').innerText = 'Kļūda. Lūdzu, spēles adreses laukam pievienojiet "&opponent=(pretinieka spēlētāja kods) vai izveidojiet jaunu spēles sesiju"';
-  //   document.getElementById('sessionID').classList.remove('hidden');
-  //   document.getElementById('multiplayerNewGame').classList.remove('hidden');
-  //   return;
-  // }
+async function getIDFromBackend() {
   const idRes = await fetch('/api/MP/assignid/', {method: "GET"});
   if (idRes.ok) {
     idJson = await idRes.json();
     console.log(idJson);
     sessionID = idJson.assignedID;
   } 
+}
+
+async function beginMultiplayer(makeNewSession=false){
+  let opponentData;
+  document.getElementById('multiplayerEnableButton').classList.add('hidden');
+  document.getElementById('opponentScore').classList.remove('hidden');
+  document.getElementById('sessionID').classList.remove('hidden');
+  document.getElementById('opponentInput').classList.remove('hidden');
+  opponentID = document.getElementById('opponentInput').value;
+  if (makeNewSession){
+    document.getElementById('multiplayerNewGame').classList.add('hidden');
+    await getIDFromBackend();
+  }
+  if (opponentID=='' && !makeNewSession) {
+    document.getElementById('sessionID').innerText = 'Lūdzu, ievadiet pretinieka spēlētāja kodu un spiediet "Savienoties", vai izveidojiet jaunu spēles sesiju"';
+    document.getElementById('multiplayerConnect').classList.remove('hidden');
+    document.getElementById('multiplayerNewGame').classList.remove('hidden');
+    if (opponentID!='') beginMultiplayer();
+    return;
+  }
+  if (sessionID==undefined) await getIDFromBackend();
+  document.getElementById('multiplayerNewGame').classList.add('hidden');
   document.getElementById('sessionID').innerText = "Spēlētāja kods: "+sessionID;
-  await setInterval(async () => {
+  if (opponentID!='') await setInterval(async () => {
     const res = await fetch('/api/MP', {
       method: "POST",
       body: JSON.stringify({id:sessionID, score:score})
@@ -100,7 +111,7 @@ async function beginMultiplayer(makeNewSession=false){
       if (opponentData.score!=undefined) document.getElementById('opponentScore').innerText = 'Pretinieka punktu skaits: '+opponentData.score;
       else document.getElementById('opponentScore').innerText = "Nav savienojuma ar pretinieku..."
     }
-  }, 1000);
+  }, 125);
 }
 
 
