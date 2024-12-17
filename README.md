@@ -13,7 +13,7 @@ https://docs.google.com/document/d/1mYGek4Qedw6ZNOUMGR09Zu7YD_mrPq3Sac_xmqPlq5w/
 https://docs.google.com/document/d/1mYGek4Qedw6ZNOUMGR09Zu7YD_mrPq3Sac_xmqPlq5w/edit?tab=t.0
 
 ### Mājaslapas priekšskatījums (uptime nav garantēts)
-http://thefun.ddns.net
+http://lgavmip.lv
 
 ## Problēmas izpēte
 
