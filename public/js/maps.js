@@ -94,22 +94,25 @@ async function doPanorama() {
 }
 window.initMap = initialize;
 
-function computeScore(){
-  const maxScore = 1000; //score value at 0 meters/100% accurate guess
-  const punishmentFactor = 12; //controls how quickly the score drops off with inaccuracy, the closer to 0, the more punishing
+async function computeScore(){
   const distance = google.maps.geometry.spherical.computeDistanceBetween(playerMarker.position, panoLocation.latLng);
+  const res = await fetch('/api/score', {
+    method: "POST",
+    body: JSON.stringify({distance: distance})
+  });
+  if (res.ok) {
+    const data = await res.json();
+    
+    console.log('backend response: ', data);
+    score = data.score;
+  }
   const writtenDistance = (distance / (distance > 5000 ? 1000 : 1)).toFixed(2);
-  tempScore = maxScore/((distance/(maxScore*punishmentFactor))+1); // asymptotically goes down to 0 as distance from real guess tends to infinity, gives too high of a score for shitty guesses so need a secondary factor to take care of far-guess edge cases
-  tempScore = tempScore - Math.pow(distance, 5)*Math.pow(10, -2*punishmentFactor); // high-order power that pulls down the score at extreme distances
-  if (tempScore<0) tempScore=0;
-  score = Math.ceil(tempScore);
-  if (distance<50) score = 1000;
   document.getElementById('result-text').innerText = `Jūs bijāt ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa un ieguvāt ${score} punktu`
   return score; //handle special cases
 }
 
 async function Submit() {
-  score += computeScore();
+  score += await computeScore();
   if (roundCounter < 4) {
     document.getElementById('score').innerHTML = `Punktu Skaits: ${score}`;
     roundCounter+=1;
