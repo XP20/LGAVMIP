@@ -11,28 +11,28 @@
         <link rel="stylesheet" type="text/css" href="/public/main.css" />
         <script src="public/js/endscreen.js"></script>
     </head>
-<body> 
-    <div id="inputs" class="flex justify-center items-center w-full h-full">
-        <input type="text" maxlength="1" />
-        <input type="text" maxlength="1" />
-        <input type="text" maxlength="1" />
-        <input type="text" maxlength="1" />
-        <input type="text" maxlength="1" />
-        <input type="text" maxlength="1" />
-        <input type="text" maxlength="1" />
-        <input type="text" maxlength="1" />
-        <input type="text" maxlength="1" />
-        <input type="text" maxlength="1" />
-        <button class="mb-64 ml-8" onclick="SubmitName()">submit</button>
+<body class="overflow-hidden"> 
+    <div class="flex flex-col w-full h-full max-h-screen min-h-screen">
+        <div class="flex font-bold justify-center text-5xl mt-20 mb-5 text-center">
+            SAGLABĀ AUGSTĀKO REZULTĀTU
+        </div>
+        <div class="flex justify-center text-3xl text-center">
+            Rezultāts: 1032
+        </div>
+        <canvas id="inputs" class="mt-28" width="2048" height="2048"></canvas>
+        <span class="absolute top-24 flex justify-center items-center w-screen h-screen">
+            <button id="SubmitToLeaderboard" class="text-3xl font-bold mt-20 animate-blinking hidden" onclick="SubmitName()">
+                IESNIEGT
+            </button>
+            <div id="buttons" class="hidden flex">
+                <a href="/start" class="flex mr-20 text-9xl text-center">
+                    try again
+                </a>
+                <a href="/" class="flex text-9xl text-center">
+                    main menu
+                </a>
+            </div>
+        </span>
     </div>
-    <div id="buttons" class="absolute flex h-full w-full justify-center items-center hidden">
-        <a href="/start" class="mr-20 text-9xl">
-            try again
-        </a>
-        <a href="/" class="text-9xl">
-            main menu
-        </a>
-    </div>
-
 </body>
 </html>

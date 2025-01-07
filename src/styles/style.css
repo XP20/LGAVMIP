@@ -36,5 +36,14 @@ html,body {
 }
 
 #inputs > input {
-    @apply border-b-4 border-black text-6xl w-16 text-center uppercase mx-2 mb-80;
+    @apply border-b-4 border-black text-6xl w-16 text-center uppercase mx-2 outline-0;
+}
+
+.animate-blinking {
+    animation: blinking 0.5s steps(1, end) infinite;
+}
+
+@keyframes blinking {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
