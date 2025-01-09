@@ -10,6 +10,7 @@ window.onload = () => {
     canvas = document.getElementById('inputs');
     canvas.style.width = '100%';
     canvas.style.height = 'auto';
+    redraw();
 }
 
 document.onkeyup = event => {
