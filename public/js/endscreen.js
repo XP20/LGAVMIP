@@ -37,7 +37,7 @@ function redraw() {
 
     let wasInput = false;
     ctx.reset();
-    ctx.font = `${fontSize}px sans-serif`;
+    ctx.font = `${fontSize}px "Jersey 10"`;
     for (let i = 0; i < keyCount; i++) {
         const char = i < writtenName.length ? writtenName[i] : '';
         const middle = width/2;

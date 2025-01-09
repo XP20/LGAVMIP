@@ -4,7 +4,8 @@ export default {
   theme: {
     fontFamily: {
       'open-sans': ['"Open Sans"', 'sans-serif'],
-      'honk': ["Honk", 'sans-serif']
+      'honk': ['"Honk"', 'sans-serif'],
+      'jersey-10': ['"Jersey 10"', 'sans-serif']
     },
     extend: {},
   },
