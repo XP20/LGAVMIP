@@ -15,8 +15,14 @@ function getCoords(){
     return coords;
 }
 
-function getCoordsFromBackend() {
-    
+async function getCoordsFromBackend() {
+    const locRes = await fetch('/api/location/0', {method: "GET"});
+    if (locRes.ok) {
+        locJson = await locRes.json();
+        console.log(locJson);
+        const latLongLiteral = {lat: locJson.lat, lng: locJson.lon};
+        return latLongLiteral;
+    } 
 }
 
 function getLatviaBox() { //returns random coordinates in a large box around Latvia, coordinates might not be in Latvia,

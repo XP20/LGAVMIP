@@ -223,7 +223,7 @@ async function initPano() {
 
 async function getPanoData(firstTime = false) {
   gettingPano = true;
-  const pos = getCoords();
+  const pos = await getCoordsFromBackend();
   let result;
   if (firstTime) {
     result = await sv.getPanorama({location: pos, radius: 200, source: "outdoor"}).catch((e) => 
