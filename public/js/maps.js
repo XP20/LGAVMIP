@@ -218,22 +218,16 @@ async function initPano() {
       showRoadLabels: false
     },
   );
-  pano = await getPanoData(true); //get inital panorama
+  pano = await getPanoData(); //get inital panorama
 }
 
-async function getPanoData(firstTime = false) {
+async function getPanoData() {
   gettingPano = true;
   const pos = await getCoordsFromBackend();
   let result;
-  if (firstTime) {
-    result = await sv.getPanorama({location: pos, radius: 200, source: "outdoor"}).catch((e) => 
-      getPanoData(true), //hacky solution, if pano isn't found, recursively generate new location
-    );
-  } else {
-    result = await sv.getPanorama({location: pos, radius: 50, source: "outdoor"}).catch((e) => 
-      getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
-    );
-  }
+  result = await sv.getPanorama({location: pos, radius: 50, source: "outdoor"}).catch((e) => 
+    getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
+  );
   gettingPano = false;
   return result;
 }
