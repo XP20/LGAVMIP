@@ -19,6 +19,8 @@ let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
 
 async function initialize() {
+  score = 0;
+  roundCounter = 0;
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
   PinElementRef = PinElement;
   AdvancedMarkerElementRef = AdvancedMarkerElement;  

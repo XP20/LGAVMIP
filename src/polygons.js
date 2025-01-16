@@ -1,9 +1,22 @@
+const { Console } = require('console');
 const fs = require('fs');
 
-fs.readFile('./src/locations_raw_data/Dobele.geojson', 'utf8', function (err, data) {
+fs.readFile('./src/locations_raw_data/Latvija.geojson', 'utf8', function (err, data) {
     let place = JSON.parse(data);
-    coordinatesArr = [...place.features[0].geometry.coordinates, ...place.features[1].geometry.coordinates, ...place.features[2].geometry.coordinates, ...place.features[3].geometry.coordinates];
-    //console.log(coordinatesArr);
+    let maxFeatureIndex = 0
+    while (place.features[maxFeatureIndex+3]!=undefined) {
+        maxFeatureIndex++;
+    }
+    console.log(maxFeatureIndex);
+    coordinatesArr = [];
+    for (let index = 0; index < maxFeatureIndex; index++) {
+        coordinatesArr.push(...place.features[index].geometry.coordinates);
+        console.log(index);
+    //    console.log(place.features[index].geometry.coordinates);
+        
+    }
+    //coordinatesArr = [...place.features[0].geometry.coordinates, ...place.features[1].geometry.coordinates, ...place.features[2].geometry.coordinates, ...place.features[3].geometry.coordinates];
+    console.log(coordinatesArr);
     let latitudeArr = [];
     let longitudeArr = [];
     for (let index = 0; index < coordinatesArr.length; index++) {
@@ -24,5 +37,5 @@ fs.readFile('./src/locations_raw_data/Dobele.geojson', 'utf8', function (err, da
     }
     //console.log(latitudeArr);
     console.log(latLongLiteral);
-    console.log(minimumLat, minimumLon, maximumLat, maximumLon);
+    console.log(minimumLat + ', ' + minimumLon+ ', ' + maximumLat+ ', ' + maximumLon);
 });
