@@ -58,8 +58,8 @@ async function initialize() {
 }
 
 function initUnfinishedOrDebugFeatures(params) {
+  if (!redpill) gamemode = 1; //Riga mode
   redpill = true;
-  gamemode = 1; //Riga mode
   beginTimer();
   document.getElementById('debugMapEnablerButton').classList.remove('hidden');
 }
