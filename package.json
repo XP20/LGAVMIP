@@ -5,7 +5,8 @@
     "dev": "bunx concurrently --kill-others bun:watch bun:serve",
     "compile": "bunx postcss --config ./ ./src/**/*.css -o ./public/main.css",
     "watch": "bunx postcss --config ./ ./src/**/*.css -o ./public/main.css --watch",
-    "serve": "bun run --hot src/index.ts"
+    "serve": "bun run --hot src/index.ts",
+    "ProcessPolygons": "bun run --hot src/polygons.js"
   },
   "type": "module",
   "dependencies": {

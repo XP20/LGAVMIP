@@ -19,6 +19,8 @@ let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
 
 async function initialize() {
+  score = 0;
+  roundCounter = 0;
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
   PinElementRef = PinElement;
   AdvancedMarkerElementRef = AdvancedMarkerElement;  
@@ -98,7 +100,7 @@ async function computeScore(){
   const distance = google.maps.geometry.spherical.computeDistanceBetween(playerMarker.position, panoLocation.latLng);
   const res = await fetch('/api/score', {
     method: "POST",
-    body: JSON.stringify({distance: distance})
+    body: JSON.stringify({distance: distance, gamemode: gamemode})
   });
   if (res.ok) {
     const data = await res.json();
@@ -218,22 +220,16 @@ async function initPano() {
       showRoadLabels: false
     },
   );
-  pano = await getPanoData(true); //get inital panorama
+  pano = await getPanoData(); //get inital panorama
 }
 
-async function getPanoData(firstTime = false) {
+async function getPanoData() {
   gettingPano = true;
-  const pos = getCoords();
+  const pos = await getCoordsFromBackend();
   let result;
-  if (firstTime) {
-    result = await sv.getPanorama({location: pos, radius: 200, source: "outdoor"}).catch((e) => 
-      getPanoData(true), //hacky solution, if pano isn't found, recursively generate new location
-    );
-  } else {
-    result = await sv.getPanorama({location: pos, radius: 50, source: "outdoor"}).catch((e) => 
-      getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
-    );
-  }
+  result = await sv.getPanorama({location: pos, radius: 50, source: "outdoor"}).catch((e) => 
+    getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
+  );
   gettingPano = false;
   return result;
 }
