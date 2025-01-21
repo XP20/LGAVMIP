@@ -51,10 +51,10 @@ async function initialize() {
     clickableIcons: false,
     mapId: "resultMap"
   });
-  await initPano();
-  doPanorama();
   let urlParams = new URLSearchParams(window.location.search);
   if ((urlParams.get('mode')=='redpill' || window.location.href.includes('localhost')) && !(urlParams.get('mode')=='prod')) initUnfinishedOrDebugFeatures(); //check if running in dev or prod environment
+  await initPano();
+  doPanorama();
 }
 
 function initUnfinishedOrDebugFeatures(params) {
