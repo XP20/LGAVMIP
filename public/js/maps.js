@@ -59,6 +59,7 @@ async function initialize() {
 
 function initUnfinishedOrDebugFeatures(params) {
   redpill = true;
+  gamemode = 1; //Riga mode
   beginTimer();
   document.getElementById('debugMapEnablerButton').classList.remove('hidden');
 }
@@ -225,7 +226,7 @@ async function initPano() {
 
 async function getPanoData() {
   gettingPano = true;
-  const pos = await getCoordsFromBackend();
+  const pos = await getCoords();
   let result;
   result = await sv.getPanorama({location: pos, radius: 50, source: "outdoor"}).catch((e) => 
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
