@@ -22,3 +22,8 @@ async function getCoordsFromBackend() {
         return latLongLiteral;
     } 
 }
+
+async function getCoords() {
+    if (redpill) return getCoordsFromBackend();
+    
+}

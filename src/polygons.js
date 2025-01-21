@@ -1,7 +1,7 @@
 const { Console } = require('console');
 const fs = require('fs');
 
-fs.readFile('./src/locations_raw_data/Latvija.geojson', 'utf8', function (err, data) {
+fs.readFile('./src/locations_raw_data/Riga.geojson', 'utf8', function (err, data) {
     let place = JSON.parse(data);
     let maxFeatureIndex = 0
     while (place.features[maxFeatureIndex+3]!=undefined) {

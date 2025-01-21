@@ -100,7 +100,7 @@ async function computeScore(){
   const distance = google.maps.geometry.spherical.computeDistanceBetween(playerMarker.position, panoLocation.latLng);
   const res = await fetch('/api/score', {
     method: "POST",
-    body: JSON.stringify({distance: distance})
+    body: JSON.stringify({distance: distance, gamemode: gamemode})
   });
   if (res.ok) {
     const data = await res.json();
