@@ -37,7 +37,8 @@ function redraw() {
 
     let wasInput = false;
     ctx.reset();
-    ctx.font = `${fontSize}px "Jersey 10"`;
+    ctx.font = `${fontSize}px "Open Sans"`;
+    ctx.fillStyle = "white";
     for (let i = 0; i < keyCount; i++) {
         const char = i < writtenName.length ? writtenName[i] : '';
         const middle = width/2;
@@ -53,7 +54,7 @@ function redraw() {
         }
     }
     const btn = document.getElementById("SubmitToLeaderboard");
-    if (btn) {
+    if (btn && document.getElementById("inputs").classList.contains("hidden") == false) {
         if (wasInput) {
             btn.classList.remove('hidden');
         } else {
