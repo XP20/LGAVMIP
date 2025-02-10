@@ -65,8 +65,9 @@ function initUnfinishedOrDebugFeatures(params) {
   redpill = true;
   beginTimer();
   document.getElementById('debugMapEnablerButton').classList.remove('hidden');
+  let urlParams = new URLSearchParams(window.location.search);
+  if(urlParams.get('jurmala') == 'yes') gamemode = 2;
 }
-
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
