@@ -11,7 +11,7 @@ function setGamemode(num) {
 }
 
 async function getCoordsFromBackend() {
-    const locRes = await fetch('/api/location/' + gamemode, {method: "GET"});
+    const locRes = await fetch('/api/location/' + gamemode + '?seed='+ nejausaSekla + '&roundCount=' + panoCounter, {method: "GET"});
     if (locRes.ok) {
         const buffer = await locRes.arrayBuffer();
         const view = new Float64Array(buffer);

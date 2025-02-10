@@ -14,6 +14,9 @@ let debugMapEnabled = false;
 let debugMap;
 let gettingPano = false;
 let redpill = false; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
+let panoSearchradios = 50;
+let panoCounter = 1; //how many times there has been a request for pano from the backend
+let nejausaSekla = getRndInteger(1, 2147483647)
 
 let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
@@ -78,6 +81,10 @@ async function beginTimer() {
   }
 }
 
+async function sendValidLocationToBackend(latLng) { //generating locations is slow, crazy idea for singleplayer mode to enslave clients to generate valid locations and phone them home
+  
+}
+
 async function doPanorama() {
   if (gettingPano) {
     await sleep(100);
@@ -85,6 +92,7 @@ async function doPanorama() {
     return;
   } //wait if last pano get job isn't complete, retry every 100ms
   panoLocation = pano.data.location; //true initial location of pano
+  sendValidLocationToBackend(panoLocation.latLng);
   processSVLocation(panoLocation);
   selectionMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
   selectionMap.setZoom(7);
@@ -227,8 +235,9 @@ async function initPano() {
 async function getPanoData() {
   gettingPano = true;
   const pos = await getCoords();
+  panoCounter++;
   let result;
-  result = await sv.getPanorama({location: pos, radius: 50, source: "outdoor"}).catch((e) => 
+  result = await sv.getPanorama({location: pos, radius: 1000, source: "outdoor"}).catch((e) => 
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );
   gettingPano = false;

@@ -9,13 +9,27 @@ let polygons = [dobele, riga, jurmala, latvia]; //[polygon][polygon/minLat/minLo
 let minMax = [[56.6007687, 23.2536552, 56.6452888, 23.3121823],[56.8573462, 23.9325504, 57.0861068, 24.3245042],[56.9238081, 23.4733924, 57.0087886, 23.970957],[55.6746505, 20.6009852, 58.0855688, 28.2414937]];
 
 
-let locationCount = 100000;
+let locationCount = 1000000;
 
 //this should be in DB later, currently is [gamemodeID][locationID][lat/lon/max/min]
 let locationStore = []
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+function getNextInt(lastInt, max) { //very simple PRNG for repeatable seeds, does not need to be cryptographically secure
+    return (2*lastInt % (max-1)) + 1 ;
+}
+
+function getSeededInt(seed, max, roundID) {
+    let seedValue = seed;
+    console.log('nejauša sēkla: ' + seedValue)
+    for (let index = 1; index < roundID; index++) {
+        seedValue = getNextInt(seedValue, max);
+        console.log("In seeded loop, value: " + seedValue);
+    }
+    return seedValue;
 }
 
 function getCoords(polygon, gamemodeID){
@@ -89,13 +103,19 @@ async function pregen() {
         }
     }
     console.log("location pregen done");  
+//     let rand = 524;
+//     for (let index = 0; index < 10; index++) {
+//         console.log(rand);
+//         rand = getNextInt(rand, locationCount-1);        
+//     }
 }
-
 
 const apiLocation = new Hono()
     .get('/:gamemode', async (c) => {
         let gamemode = parseInt(c.req.param('gamemode'));
-        let locationID = getRndInteger(0,locationCount-1);
+        let seed = parseInt(c.req.query('seed')%locationCount-1) || (getRndInteger(0,locationCount-1)); // default random seed if not provided
+        let roundCount = parseInt(c.req.query('roundCount')) || 1;
+        let locationID = getSeededInt(seed, locationCount-1, roundCount);
         let location = locationStore[gamemode][locationID];
 
         //Claude dark magic
@@ -103,7 +123,6 @@ const apiLocation = new Hono()
         const view = new Float64Array(buffer);
         view[0] = location[0]; // latitude
         view[1] = location[1]; // longitude
-        
         return new Response(buffer, {
             headers: {
                 'Content-Type': 'application/octet-stream'
