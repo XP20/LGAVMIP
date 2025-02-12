@@ -67,13 +67,18 @@ async function ajaxEndscreenTest(params) { //somehow this function seems to work
   document.getElementById('game').innerHTML = testVar;
 }
 
+function selectGamemode(id) {
+  gamemode = id;
+  setElementHidden('ajaxScreen');
+  initialize();
+}
+
 async function initUnfinishedOrDebugFeatures(params) {
-  if (!redpill) gamemode = 1; //Riga mode
   redpill = true;
   beginTimer();
+  setElementVisible('ajaxScreen');
+  document.getElementById('ajaxScreen').innerHTML = await loadHTML('/public/gamemodeSelector.html'); //gamemode selector screen, this is jank
   setElementVisible('debugMapEnablerButton');
-  let urlParams = new URLSearchParams(window.location.search);
-  if(urlParams.get('jurmala') == 'yes') gamemode = 2;
 }
 
 function sleep(ms) {
