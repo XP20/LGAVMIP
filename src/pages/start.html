@@ -10,11 +10,12 @@
 
 
     <link rel="stylesheet" type="text/css" href="/public/main.css" />
+    <script src="/public/js/DOMination.js"></script>
     <script src="/public/js/coordinateFinder.js"></script>
     <script src="/public/js/maps.js"></script>
   </head>
   <body class="w-screen h-screen">
-    <span class="flex justify-center w-full h-full rounded-2xl">
+    <span id="game" class="flex justify-center w-full h-full rounded-2xl">
       <div id="map-wrapper" class="HoveringOverMap absolute top-4 left-4 min-w-40 w-1/5 h-2/6 opacity-40 z-10">
         <div id="map" class="absolute w-full h-full backdrop-blur z-10 rounded-xl"></div>
         <button class="GrowWithMap absolute right-3 bottom-3 z-20 bg-green-700 px-2 py-1 rounded-md text-lg font-open-sans font-bold text-red-100" onclick="Submit()">

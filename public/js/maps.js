@@ -26,7 +26,7 @@ async function initialize() {
   roundCounter = 0;
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
   PinElementRef = PinElement;
-  AdvancedMarkerElementRef = AdvancedMarkerElement;  
+  AdvancedMarkerElementRef = AdvancedMarkerElement;
   selectionMap = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 56.951941,  lng: 24.081368 }, //have the map always centered at the true origin of the world, independent of street view position
     zoom: 7,
@@ -60,14 +60,22 @@ async function initialize() {
   doPanorama();
 }
 
-function initUnfinishedOrDebugFeatures(params) {
+async function ajaxEndscreenTest(params) { //somehow this function seems to work if called from within JS but not if triggered on click of a button, then the endscreen.js errors out
+  setElementHidden('results-screen');
+  addScript('/public/js/endscreen.js');
+  testVar = await loadHTML('/result');
+  document.getElementById('game').innerHTML = testVar;
+}
+
+async function initUnfinishedOrDebugFeatures(params) {
   if (!redpill) gamemode = 1; //Riga mode
   redpill = true;
   beginTimer();
-  document.getElementById('debugMapEnablerButton').classList.remove('hidden');
+  setElementVisible('debugMapEnablerButton');
   let urlParams = new URLSearchParams(window.location.search);
   if(urlParams.get('jurmala') == 'yes') gamemode = 2;
 }
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -83,7 +91,7 @@ async function beginTimer() {
 }
 
 async function sendValidLocationToBackend(latLng) { //generating locations is slow, crazy idea for singleplayer mode to enslave clients to generate valid locations and phone them home
-  
+
 }
 
 async function doPanorama() {
@@ -99,9 +107,9 @@ async function doPanorama() {
   selectionMap.setZoom(7);
   if (debugMapEnabled) debugMap.setCenter(panoLocation.latLng);
   panorama.setZoom(0);
-  document.getElementById('results-screen').classList.add('hidden');
+  setElementHidden('results-screen');
   if (playerMarker != null) playerMarker.setMap(null);
-  document.getElementById('GoToEndButton').classList.add('hidden');
+  setElementHidden('results-screen');
   pano = await getPanoData(); //get next panorama data
 }
 window.initMap = initialize;
@@ -114,7 +122,7 @@ async function computeScore(){
   });
   if (res.ok) {
     const data = await res.json();
-    
+
     console.log('backend response: ', data);
     score = data.score;
   }
@@ -134,11 +142,11 @@ async function Submit() {
     roundCounter=0; //After 5 rounds, reset
     score=0;
     if (redpill) {
-      document.getElementById('GoToEndButton').classList.remove('hidden');
-      document.getElementById('nextButton').classList.add('hidden');
+      setElementVisible('GoToEndButton')
+      setElementHidden('nextButton')
     }
   }
-  document.getElementById('results-screen').classList.remove('hidden');
+  setElementVisible('results-screen');
   resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
   resultMap.setZoom(7);
    if (playerMarker != null)
@@ -154,7 +162,7 @@ async function Submit() {
     borderColor: "#d92eff",
     background: "#e77cf7",
     glyphColor: "white"
-  })  
+  })
 
   const pinRandomSet = new PinElementRef ({
     borderColor: "#cc260c",
@@ -199,16 +207,17 @@ async function Submit() {
   distanceBetweenMarkers.setMap(resultMap);
 }
 
+
 function toggleDebugMap() {
   initDbg();
-  document.getElementById('debugMap').classList.contains('hidden') ? document.getElementById('debugMap').classList.remove('hidden') : document.getElementById('debugMap').classList.add('hidden');
-  document.getElementById('debugButton').classList.contains('hidden') ? document.getElementById('debugButton').classList.remove('hidden') : document.getElementById('debugButton').classList.add('hidden');
+  toggleElementVisibility('debugMap');
+  toggleElementVisibility('debugButton');
 }
 
 function initDbg() {
   if (!debugMapEnabled) {
     debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
-      center: panoLocation.latLng, 
+      center: panoLocation.latLng,
       zoom: 11,
       mapId: "debugMap",
       streetViewControl: false,
@@ -238,7 +247,7 @@ async function getPanoData() {
   const pos = await getCoords();
   panoCounter++;
   let result;
-  result = await sv.getPanorama({location: pos, radius: 1000, source: "outdoor"}).catch((e) => 
+  result = await sv.getPanorama({location: pos, radius: 1000, source: "outdoor"}).catch((e) =>
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );
   gettingPano = false;
