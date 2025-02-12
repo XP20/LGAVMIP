@@ -8,6 +8,7 @@ const routesPages = new Hono()
     .get('/start', serveStatic({ path: './src/pages/start.html' }))
     .get('/result', serveStatic({ path: './src/pages/endscreen.html' }))
     .get('/generate', serveStatic({path: './src/pages/slave.html'}))
+    .get('/gamemodes', serveStatic({path: './src/pages/gamemodeSelector.html'}))
 
 
 export default routesPages;

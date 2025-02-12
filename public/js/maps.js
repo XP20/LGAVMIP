@@ -16,7 +16,7 @@ let gettingPano = false;
 let redpill = false; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
 let panoSearchradios = 50;
 let panoCounter = 1; //how many times there has been a request for pano from the backend
-let nejausaSekla = getRndInteger(1, 2147483647)
+let nejausaSekla = getRndInteger(1, 2147483647);
 
 let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
@@ -24,6 +24,8 @@ let AdvancedMarkerElementRef = null;
 async function initialize() {
   score = 0;
   roundCounter = 0;
+  panoCounter = 1;
+  nejausaSekla = getRndInteger(1, 2147483647);
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
   PinElementRef = PinElement;
   AdvancedMarkerElementRef = AdvancedMarkerElement;
@@ -77,7 +79,7 @@ async function initUnfinishedOrDebugFeatures(params) {
   redpill = true;
   beginTimer();
   setElementVisible('ajaxScreen');
-  document.getElementById('ajaxScreen').innerHTML = await loadHTML('/public/gamemodeSelector.html'); //gamemode selector screen, this is jank
+  document.getElementById('ajaxScreen').innerHTML = await loadHTML('/gamemodes'); //gamemode selector screen, this is jank
   setElementVisible('debugMapEnablerButton');
 }
 
@@ -110,7 +112,9 @@ async function doPanorama() {
   processSVLocation(panoLocation);
   selectionMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
   selectionMap.setZoom(7);
-  if (debugMapEnabled) debugMap.setCenter(panoLocation.latLng);
+  if (debugMapEnabled){
+    debugMap.setCenter(panoLocation.latLng);
+  };
   panorama.setZoom(0);
   setElementHidden('results-screen');
   if (playerMarker != null) playerMarker.setMap(null);
@@ -219,7 +223,7 @@ function toggleDebugMap() {
   toggleElementVisibility('debugButton');
 }
 
-function initDbg() {
+async function initDbg() {
   if (!debugMapEnabled) {
     debugMap = new google.maps.Map(document.getElementById("debugMap"), { //debug map element that shows the true location of the found panorama
       center: panoLocation.latLng,
@@ -229,6 +233,15 @@ function initDbg() {
       fullscreenControl: false,
     });
     debugMapEnabled = true;
+  }
+  for (let index = 0; index < riga.length; index++) {
+    const pos = riga[index];
+    testMarker = new google.maps.Marker({
+      position: pos,
+      map: debugMap,
+      title: "Hello World!",
+    });
+    await sleep(2);
   }
 }
 
@@ -252,7 +265,8 @@ async function getPanoData() {
   const pos = await getCoords();
   panoCounter++;
   let result;
-  result = await sv.getPanorama({location: pos, radius: 1000, source: "outdoor"}).catch((e) =>
+
+  result = await sv.getPanorama({location: pos, radius: 1000, source: "google"}).catch((e) =>
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );
   gettingPano = false;

@@ -23,6 +23,23 @@ html,body {
     @apply transition-all delay-150 duration-500;
 }
 
+.menu-button {
+    @apply px-2 py-1 rounded text-3xl font-open-sans font-bold shadow-sm text-center transition-all delay-0 duration-300  hover:scale-105 hover:bg-opacity-100 hover:shadow-lg bg-opacity-80;
+}
+
+.game-mode-button-yellow {
+    @apply menu-button bg-yellow-500 shadow-yellow-800 text-yellow-50 hover:bg-yellow-600 hover:shadow-yellow-950;
+}
+
+.game-mode-button-red {
+    @apply menu-button bg-red-500 shadow-red-800 text-red-50 hover:bg-red-600 hover:shadow-red-950;
+}
+
+.game-mode-button-green {
+    @apply menu-button bg-green-500 shadow-green-800 text-green-50 hover:bg-green-600 hover:shadow-green-950;
+}
+
+
 .HoveringOverMap:hover .GrowWithMap {
     @apply text-3xl;
 }
