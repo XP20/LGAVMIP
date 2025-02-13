@@ -6,6 +6,7 @@ let panoLocation; //Warning: This is NOT a latLng, this is a google maps locatio
 let selctedPosition;
 let distanceBetweenMarkers
 let score = 0;
+let roundFinalScore;
 let roundCounter = 0;
 let pano; //panorama data object
 let resultMap;
@@ -22,10 +23,8 @@ let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
 
 async function initialize() {
-  score = 0;
-  roundCounter = 0;
-  panoCounter = 1;
-  nejausaSekla = getRndInteger(1, 2147483647);
+  let urlParams = new URLSearchParams(window.location.search);
+  if ((urlParams.get('mode')=='redpill' || window.location.href.includes('localhost')) && !(urlParams.get('mode')=='prod') && !redpill) initUnfinishedOrDebugFeatures(); //check if running in dev or prod environment
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
   PinElementRef = PinElement;
   AdvancedMarkerElementRef = AdvancedMarkerElement;
@@ -36,7 +35,6 @@ async function initialize() {
     clickableIcons: false,
     mapId: "map",
   });
-
   google.maps.event.addListener(selectionMap, "click", (event) => {
     console.log(event);
     if (playerMarker != null){
@@ -56,45 +54,55 @@ async function initialize() {
     clickableIcons: false,
     mapId: "resultMap"
   });
-  let urlParams = new URLSearchParams(window.location.search);
-  if ((urlParams.get('mode')=='redpill' || window.location.href.includes('localhost')) && !(urlParams.get('mode')=='prod') && !redpill) initUnfinishedOrDebugFeatures(); //check if running in dev or prod environment
-  await initPano();
+  sv = new google.maps.StreetViewService();
+  panorama = new google.maps.StreetViewPanorama(
+    document.getElementById("pano"),
+    {
+      addressControl: false,
+      enableCloseButton: false,
+      fullscreenControl: false,
+      zoomControl: false,
+      showRoadLabels: false
+    },
+  );
+  if (!redpill) initGame();
+}
+
+async function initGame() {
+  score = 0;
+  roundCounter = 0;
+  panoCounter = 1;
+  nejausaSekla = getRndInteger(1, 2147483647);
+  setElementHidden('ajaxScreen');
+  pano = await getPanoData(); //get initial location
   doPanorama();
 }
 
 async function ajaxEndscreenTest(params) { //somehow this function seems to work if called from within JS but not if triggered on click of a button, then the endscreen.js errors out
   setElementHidden('results-screen');
-  addScript('/public/js/endscreen.js');
-  testVar = await loadHTML('/result');
-  document.getElementById('game').innerHTML = testVar;
+  setElementHidden('GoToEndButton');
+  setElementVisible('nextButton');
+  await addScript('/public/js/endscreen.js');
+  testVar = await loadHTML('/public/endscreen2.html');
+  document.getElementById('ajaxScreen').innerHTML = testVar;
+  setElementVisible('ajaxScreen');
+  onloadCopy();
+  document.getElementById('finalResult').innerText = "Rezultāts: " + roundFinalScore;
 }
 
 function selectGamemode(id) {
   gamemode = id;
-  setElementHidden('ajaxScreen');
-  initialize();
+  initGame();
 }
 
 async function initUnfinishedOrDebugFeatures(params) {
   redpill = true;
-  beginTimer();
-  setElementVisible('ajaxScreen');
   document.getElementById('ajaxScreen').innerHTML = await loadHTML('/gamemodes'); //gamemode selector screen, this is jank
   setElementVisible('debugMapEnablerButton');
 }
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function beginTimer() {
-  let secondsRemaining = 120;
-  while (true) {;
-    document.getElementById('timer').innerText = "Sekundes atlikušas: " + secondsRemaining;
-    secondsRemaining -=1
-    if (secondsRemaining == 0) break;
-    await sleep(1000);
-  }
 }
 
 async function sendValidLocationToBackend(latLng) { //generating locations is slow, crazy idea for singleplayer mode to enslave clients to generate valid locations and phone them home
@@ -116,12 +124,10 @@ async function doPanorama() {
     debugMap.setCenter(panoLocation.latLng);
   };
   panorama.setZoom(0);
-  setElementHidden('results-screen');
   if (playerMarker != null) playerMarker.setMap(null);
   setElementHidden('results-screen');
   pano = await getPanoData(); //get next panorama data
 }
-window.initMap = initialize;
 
 async function computeScore(){
   const distance = google.maps.geometry.spherical.computeDistanceBetween(playerMarker.position, panoLocation.latLng);
@@ -146,6 +152,7 @@ async function Submit() {
     document.getElementById('score').innerHTML = `Punktu Skaits: ${score}`;
     roundCounter+=1;
   } else {
+    roundFinalScore = score;
     document.getElementById('score').innerHTML = `Punktu Skaits`;
     document.getElementById('result-text').innerText += '\n\rBeidzamais punktu skaits: ' + score;
     roundCounter=0; //After 5 rounds, reset
@@ -212,7 +219,6 @@ async function Submit() {
     }],
     map: resultMap
   });
-
   distanceBetweenMarkers.setMap(resultMap);
 }
 
@@ -245,27 +251,11 @@ async function initDbg() {
   }
 }
 
-async function initPano() {
-  sv = new google.maps.StreetViewService();
-  panorama = new google.maps.StreetViewPanorama(
-    document.getElementById("pano"),
-    {
-      addressControl: false,
-      enableCloseButton: false,
-      fullscreenControl: false,
-      zoomControl: false,
-      showRoadLabels: false
-    },
-  );
-  pano = await getPanoData(); //get inital panorama
-}
-
 async function getPanoData() {
   gettingPano = true;
   const pos = await getCoords();
   panoCounter++;
   let result;
-
   result = await sv.getPanorama({location: pos, radius: 1000, source: "google"}).catch((e) =>
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );
@@ -277,5 +267,3 @@ function processSVLocation(location) {
   panorama.setPano(location.pano);
   panorama.setVisible(true);
 }
-
-window.initialize = initialize;

@@ -10,7 +10,7 @@ let polygons = [dobele, riga, jurmala, latvia]; //[polygon][polygon/minLat/minLo
 let minMax = [[56.6007687, 23.2536552, 56.6452888, 23.3121823],[56.8573462, 23.9325504, 57.0861068, 24.3245042],[56.9238081, 23.4733924, 57.0087886, 23.970957],[55.6746505, 20.6009852, 58.0855688, 28.2414937]];
 
 
-let locationCount = 1000000;
+let locationCount = 10000;
 
 //this should be in DB later, currently is [gamemodeID][locationID][lat/lon/max/min]
 let locationStore = []

@@ -22,9 +22,12 @@ async function loadHTML(url) {
     return res.text();
 }
 function addScript(src) {
+    return new Promise((resolve, reject) => {
     var s = document.createElement('script');
     s.type = 'text/javascript';
     s.src = src;
+        s.onload = () => resolve(s);
+        s.onerror = () => reject(new Error(`Script load error for ${src}`));
     document.getElementsByTagName('head')[0].appendChild(s);
-    return s;  
+    });
 }

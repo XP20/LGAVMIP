@@ -13,6 +13,13 @@ window.onload = () => {
     redraw();
 }
 
+function onloadCopy(params) {
+    canvas = document.getElementById('inputs');
+    canvas.style.width = '100%';
+    canvas.style.height = 'auto';
+    redraw();
+}
+
 document.onkeyup = event => {
     const isValidChar = event.key.match(/^[a-zA-Z\!\?\*\-\+\$\%\&\#\@0-9]$/);
     if (isValidChar) {
