@@ -70,8 +70,12 @@ function redraw() {
     }
 }
 
-function SubmitName() {
+async function SubmitName() {
     document.getElementById("inputs").classList.add("hidden")
     document.getElementById("SubmitToLeaderboard").classList.add("hidden")
     document.getElementById("buttons").classList.remove("hidden")
+    const res = await fetch('/api/leaderboard/insert', {
+        method: "POST",
+        body: JSON.stringify({username:writtenName, score:roundFinalScore})
+      });
 }
