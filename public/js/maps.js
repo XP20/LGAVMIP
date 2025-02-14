@@ -15,9 +15,9 @@ let debugMapEnabled = false;
 let debugMap;
 let gettingPano = false;
 let redpill = false; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
-let panoSearchradios = 50;
 let panoCounter = 1; //how many times there has been a request for pano from the backend
 let nejausaSekla = getRndInteger(1, 2147483647);
+let gamemode;
 
 let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
@@ -36,7 +36,6 @@ async function initialize() {
     mapId: "map",
   });
   google.maps.event.addListener(selectionMap, "click", (event) => {
-    console.log(event);
     if (playerMarker != null){
       playerMarker.setMap(null);
     }
@@ -65,15 +64,16 @@ async function initialize() {
       showRoadLabels: false
     },
   );
-  if (!redpill) initGame();
+  if (!redpill){ 
+    initGame();
+    setElementHidden('ajaxScreen')
+  }
 }
-
 async function initGame() {
   score = 0;
   roundCounter = 0;
   panoCounter = 1;
   nejausaSekla = getRndInteger(1, 2147483647);
-  setElementHidden('ajaxScreen');
   pano = await getPanoData(); //get initial location
   doPanorama();
 }
@@ -91,8 +91,10 @@ async function ajaxEndscreenTest(params) { //somehow this function seems to work
 }
 
 function selectGamemode(id) {
-  gamemode = id;
-  initGame();
+  if (gamemode!=id) {
+    gamemode = id;
+    initGame();
+  }
 }
 
 async function initUnfinishedOrDebugFeatures(params) {
@@ -137,8 +139,6 @@ async function computeScore(){
   });
   if (res.ok) {
     const data = await res.json();
-
-    console.log('backend response: ', data);
     score = data.score;
   }
   const writtenDistance = (distance / (distance > 5000 ? 1000 : 1)).toFixed(2);

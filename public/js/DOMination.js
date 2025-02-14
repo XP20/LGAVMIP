@@ -16,9 +16,6 @@ function setElementHidden(elementID) {
 }
 async function loadHTML(url) {
     const res = await fetch(url, {method: "GET"});
-    if (res.ok) {
-        console.log(res);
-    } 
     return res.text();
 }
 function addScript(src) {
