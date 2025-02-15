@@ -40,10 +40,12 @@ document.onkeyup = event => {
 
 function redraw() {
     const ctx = canvas.getContext('2d');
+    console.log(ctx);
     const { width, height } = canvas;
 
     let wasInput = false;
-    ctx.reset();
+    //ctx.reset();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = `${fontSize}px "Open Sans"`;
     ctx.fillStyle = "white";
     for (let i = 0; i < keyCount; i++) {

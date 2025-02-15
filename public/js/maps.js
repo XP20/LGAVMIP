@@ -256,7 +256,7 @@ async function getPanoData() {
   const pos = await getCoords();
   panoCounter++;
   let result;
-  result = await sv.getPanorama({location: pos, radius: 1000, source: "google"}).catch((e) =>
+  result = await sv.getPanorama({location: pos, radius: 1000, source: "google", preference: "nearest"}).catch((e) =>
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );
   gettingPano = false;

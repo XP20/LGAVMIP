@@ -14,7 +14,12 @@ const apiLeaderboard = new Hono()
     })
     .post('/insert', async (c) => {
         const body = await c.req.json();
-        const { username, score } = body;
+        let { username, score } = body;
+        score = parseInt(score);
+        if (score>5000 || score<0) {
+            username = 'Klauns';
+            score = -2147483648;
+        }
         await Database.db.insert(leaderboard).values({username:username, score:parseInt(score)});
     });
 
