@@ -26,7 +26,7 @@ async function parseKMLPolygonCoordinates(kmlString) {
   }
 }
 
-fs.readFile('./src/locations_raw_data/Valmiera.kml', 'utf8', async function (err, data)  {
+fs.readFile('./src/locations_raw_data/Centrs.kml', 'utf8', async function (err, data)  {
     let string = data.toString();
     let coordinatesArr = await parseKMLPolygonCoordinates(string);
    // console.log(coords);
