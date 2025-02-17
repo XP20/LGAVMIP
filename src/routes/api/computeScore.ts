@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 
 //this should also be in database probably
-let punishmentFactors = [5,8,8,12,6];
+let punishmentFactors = [5,8,8,12,6,5];
 
 const apiScore = new Hono()
     .post('/', async (c) => {
