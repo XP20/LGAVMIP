@@ -1,4 +1,13 @@
 <span class="grid items-center justify-center grid-cols-3 w-full m-auto mt-0 h-full z-10">
+    <template id="buttonTemplate">
+        <div class="w-full flex justify-center h-auto">
+            <button
+                onmouseover="selectGamemode(gamemode)"
+                onclick="setElementHidden('ajaxScreen')"
+                class="game-mode-button-red" 
+            ></button>
+        </div>
+    </template>
     <div class="w-full flex justify-center h-auto">
         <button
             onmouseover="selectGamemode(1)"
@@ -29,8 +38,10 @@
     </div>
     <div class="w-full flex justify-center h-auto">
         <button
+            onmouseover="selectGamemode(3)"
+            onclick="setElementHidden('ajaxScreen')"
             class="game-mode-button-green" 
-        >Valstspilsētas (WIP)</button>
+        >Latvija</button>
     </div>
     <div class="w-full flex justify-center h-auto">
         <button

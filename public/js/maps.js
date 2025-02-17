@@ -25,6 +25,7 @@ let AdvancedMarkerElementRef = null;
 async function initialize() {
   let urlParams = new URLSearchParams(window.location.search);
   if ((urlParams.get('mode')=='redpill' || window.location.href.includes('localhost')) && !(urlParams.get('mode')=='prod') && !redpill) initUnfinishedOrDebugFeatures(); //check if running in dev or prod environment
+  document.getElementById('ajaxScreen').innerHTML = await loadHTML('/gamemodes'); //gamemode selector screen, this is jank
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
   PinElementRef = PinElement;
   AdvancedMarkerElementRef = AdvancedMarkerElement;
@@ -64,24 +65,21 @@ async function initialize() {
       showRoadLabels: false
     },
   );
-  if (!redpill){ 
-    initGame();
-    setElementHidden('ajaxScreen')
-  }
 }
+
 async function initGame() {
   score = 0;
   roundCounter = 0;
   panoCounter = 1;
   nejausaSekla = getRndInteger(1, 2147483647);
+  setElementHidden('GoToEndButton');
+  setElementVisible('nextButton');
   pano = await getPanoData(); //get initial location
   doPanorama();
 }
 
 async function ajaxEndscreenTest(params) { //somehow this function seems to work if called from within JS but not if triggered on click of a button, then the endscreen.js errors out
   setElementHidden('results-screen');
-  setElementHidden('GoToEndButton');
-  setElementVisible('nextButton');
   await addScript('/public/js/endscreen.js');
   testVar = await loadHTML('/public/endscreen2.html');
   document.getElementById('ajaxScreen').innerHTML = testVar;
@@ -99,7 +97,6 @@ function selectGamemode(id) {
 
 async function initUnfinishedOrDebugFeatures(params) {
   redpill = true;
-  document.getElementById('ajaxScreen').innerHTML = await loadHTML('/gamemodes'); //gamemode selector screen, this is jank
   setElementVisible('debugMapEnablerButton');
 }
 
@@ -155,12 +152,8 @@ async function Submit() {
     roundFinalScore = score;
     document.getElementById('score').innerHTML = `Punktu Skaits`;
     document.getElementById('result-text').innerText += '\n\rBeidzamais punktu skaits: ' + score;
-    roundCounter=0; //After 5 rounds, reset
-    score=0;
-    if (redpill) {
-      setElementVisible('GoToEndButton')
-      setElementHidden('nextButton')
-    }
+    setElementVisible('GoToEndButton');
+    setElementHidden('nextButton');
   }
   setElementVisible('results-screen');
   resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
