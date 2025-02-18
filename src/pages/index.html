@@ -17,10 +17,10 @@
         <div class="absolute top-0 left-0 w-screen h-screen z-0 overflow-hidden">
             <img src="/public/bg.avif" onerror="this.src = '/public/bg1.jpg'" class="w-full h-full object-cover">
         </div>
-        <span class="flex flex-col w-1/2 m-auto mt-0 h-full items-center justify-center gap-2 pt-[3%] z-10">
+        <span class="flex flex-col w-1/2 m-auto mt-0 h-full items-center justify-center gap-2 pt-[3%] z-10 overflow-hidden">
             <img src="/public/logo.avif" onerror="this.src = '/public/logo.png'" class="h-3/5 max-h-72 object-scale-down mb-[5%]">
         </span>
-        <span class="flex flex-col w-1/2 m-auto mt-0 h-full items-center justify-center gap-2 pt-[3%] z-10">
+        <span class="flex flex-col w-1/2 m-auto mt-0 h-full items-center justify-center gap-2 pt-[3%] z-10 overflow-hidden">
             <div class="w-1/2 min-w-64 h-auto pb-[1%]">
                 <a
                     href="/start"
@@ -43,14 +43,14 @@
             </div>
         </span>
         <span id="leaderboard" class="absolute w-screen h-screen flex justify-center items-center bg-slate-800 bg-opacity-60 z-20 hidden">
-            <span class="flex flex-col min-w-96 w-2/6 h-4/5 border-4 p-6 border-slate-800 bg-white rounded-2xl text-center gap-4">
+            <span class="flex flex-col min-w-96 w-2/6 h-4/5 border-4 p-6 border-slate-800 bg-white rounded-2xl lgavmip-autodarkmode text-center gap-4">
                 <span class="text-3xl font-bold">
                     Āpši
                 </span>
-                <span id="leaderboard-list" class="overflow-y-scroll flex-1 flex flex-col"></span>
-                <button class="border-4 px-2 rounded-xl border-green-800 bg-green-500" onclick="getLeaderboard(10, false)">Uz augšu</button>
-                <button class="border-4 px-2 rounded-xl border-yellow-700 bg-yellow-500" onclick="getLeaderboard(10, true)">Uz apakšu</button>
-                <button class="border-4 px-2 rounded-xl border-red-800 bg-red-300" onclick="closeLeaderboard()">Iziet</button>
+                <span id="leaderboard-list" class="overflow-y-scroll no-scrollbar flex-1 flex flex-col"></span>
+                <button class="border-4 px-2 rounded-xl border-green-800 bg-green-600" onclick="getLeaderboard(10, false)">Uz augšu</button>
+                <button class="border-4 px-2 rounded-xl border-yellow-700 bg-yellow-600" onclick="getLeaderboard(10, true)">Uz apakšu</button>
+                <button class="border-4 px-2 rounded-xl border-red-800 bg-red-600" onclick="closeLeaderboard()">Iziet</button>
             </span>
         </span>
     </body>

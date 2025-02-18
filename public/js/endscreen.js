@@ -42,10 +42,9 @@ function redraw() {
     const ctx = canvas.getContext('2d');
     console.log(ctx);
     const { width, height } = canvas;
-
     let wasInput = false;
     //ctx.reset();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height); //Goanna/old browser compat
     ctx.font = `${fontSize}px "Open Sans"`;
     ctx.fillStyle = "white";
     for (let i = 0; i < keyCount; i++) {
@@ -73,9 +72,9 @@ function redraw() {
 }
 
 async function SubmitName() {
-    document.getElementById("inputs").classList.add("hidden")
-    document.getElementById("SubmitToLeaderboard").classList.add("hidden")
-    document.getElementById("buttons").classList.remove("hidden")
+    setElementHidden("inputs");
+    setElementHidden("SubmitToLeaderboard");
+    setElementVisible("buttons")
     const res = await fetch('/api/leaderboard/insert', {
         method: "POST",
         body: JSON.stringify({username:writtenName, score:roundFinalScore})
