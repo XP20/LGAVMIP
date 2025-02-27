@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KML Upload</title>
+</head>
+<body>
+    <form id="uploadForm">
+        <input type="file" id="kmlFile" accept=".kml" required>
+        <button type="submit">Upload KML</button>
+    </form>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            const fileInput = document.getElementById('kmlFile');
+            formData.append('kmlFile', fileInput.files[0]);
+
+            try {
+                const response = await fetch('/api/uploadKML', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                console.log('Processed KML data:', data);
+                
+            } catch (error) {
+                console.error('Error uploading file:', error);
+            }
+        });
+    </script>
+</body>
+</html>
