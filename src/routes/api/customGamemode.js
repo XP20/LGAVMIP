@@ -3,6 +3,8 @@ import { parseString } from 'xml2js';
 import { promisify } from 'util';
 import { Hono } from 'hono';
 import { userLocations } from './locationStorage.js';
+import { pregenSingle } from './location.js';
+import { presetLocationStore } from './location.js';
 
 const apiKML = new Hono();
 
@@ -42,7 +44,7 @@ apiKML.post('/', async (c) => {
     let latLngArray = []
     for (let index = 0; index < coordinatesArr.length; index++) {
       const lng = coordinatesArr[index][0];
-      const lat = coordinatesArr[index][0];
+      const lat = coordinatesArr[index][1];
       latLngArray[index] = {lng:lng, lat:lat}; //this sucks, parseKMLPolygonCoordinates should be made to return a latlngliteral array to begin with
     }
 
@@ -58,8 +60,7 @@ apiKML.post('/', async (c) => {
     const minimumLon = Math.min(...longitudeArr);
     const maximumLon = Math.max(...longitudeArr);
     let minMaxArray = [minimumLat, minimumLon, maximumLat, maximumLon];
-    userLocations.push([latLngArray, minMaxArray]);
-    console.log(userLocations)
+    let gamemodeArray = [latLngArray, minMaxArray];
   } catch (error) {
     console.error('Error processing KML file:', error);
     return c.json({ error: 'Failed to process KML file' }, 500);

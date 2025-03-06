@@ -10,7 +10,7 @@ const routesApi = new Hono()
     .route('/leaderboard', apiLeaderboard)
     .route('/score', apiScore)
     .route('/location', apiLocation)
-    .route('/uploadKML', apiKML);
+    //.route('/uploadKML', apiKML);
 
 
 export default routesApi;
