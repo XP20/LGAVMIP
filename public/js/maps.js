@@ -18,6 +18,7 @@ let redpill = false; //flag to enable unfinished features that break gameplay ex
 let panoCounter = 1; //how many times there has been a request for pano from the backend
 let nejausaSekla = getRndInteger(1, 2147483647);
 let gamemode;
+let gameStarted = false;
 
 let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
@@ -72,7 +73,7 @@ async function initGame() {
   roundCounter = 0;
   panoCounter = 1;
   nejausaSekla = getRndInteger(1, 2147483647);
-  pano = await getPanoData(); //get initial location
+  if (!gameStarted) pano = await getPanoData(); //get initial location
   doPanorama();
   document.getElementById('nextButton').innerText = "Nākošais";
   setElementHidden('GoToEndButton');
@@ -111,6 +112,7 @@ function nextButton() {
   } else doPanorama();
 }
 async function doPanorama() {
+  gameStarted = true;
  if (gettingPano) {
     await sleep(100);
     doPanorama();
@@ -127,6 +129,7 @@ async function doPanorama() {
   if (playerMarker != null) playerMarker.setMap(null);
   setElementHidden('results-screen');
   pano = await getPanoData(); //get next panorama data
+
 }
 
 async function computeScore(){
