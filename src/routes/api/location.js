@@ -13,7 +13,7 @@ let minMax = [[56.6007687, 23.2536552, 56.6452888, 23.3121823],[56.8573462, 23.9
 
 let presetGames = []
 
-let locationCount = 100;
+let locationCount = 100000;
 export let presetLocationStore = []
 
 function getRndInteger(min, max) {

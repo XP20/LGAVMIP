@@ -70,6 +70,7 @@ async function initialize() {
 async function initGame() {
   score = 0;
   roundCounter = 0;
+  document.getElementById('nextButton').innerText = "Nākošais";
   panoCounter = 1;
   nejausaSekla = getRndInteger(1, 2147483647);
   setElementHidden('GoToEndButton');
@@ -104,18 +105,18 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function sendValidLocationToBackend(latLng) { //generating locations is slow, crazy idea for singleplayer mode to enslave clients to generate valid locations and phone them home
-
+function nextButton(params) {
+  if (roundCounter!=5) {
+    doPanorama();
+  } else initGame();
 }
-
 async function doPanorama() {
-  if (gettingPano) {
+ if (gettingPano) {
     await sleep(100);
     doPanorama();
     return;
   } //wait if last pano get job isn't complete, retry every 100ms
   panoLocation = pano.data.location; //true initial location of pano
-  sendValidLocationToBackend(panoLocation.latLng);
   processSVLocation(panoLocation);
   selectionMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
   selectionMap.setZoom(7);
@@ -150,10 +151,10 @@ async function Submit() {
     roundCounter+=1;
   } else {
     roundFinalScore = score;
-    document.getElementById('score').innerHTML = `Punktu Skaits`;
+    document.getElementById('score').innerHTML = `Punktu Skaits: 0`;
     document.getElementById('result-text').innerText += '\n\rBeidzamais punktu skaits: ' + score;
     setElementVisible('GoToEndButton');
-    setElementHidden('nextButton');
+    document.getElementById('nextButton').innerText = "Mēģināt vēlreiz";
   }
   setElementVisible('results-screen');
   resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
@@ -233,15 +234,6 @@ async function initDbg() {
     });
     debugMapEnabled = true;
   }
-  for (let index = 0; index < riga.length; index++) {
-    const pos = riga[index];
-    testMarker = new google.maps.Marker({
-      position: pos,
-      map: debugMap,
-      title: "Hello World!",
-    });
-    await sleep(2);
-  }
 }
 
 async function getPanoData() {
@@ -249,7 +241,7 @@ async function getPanoData() {
   const pos = await getCoords();
   panoCounter++;
   let result;
-  result = await sv.getPanorama({location: pos, radius: 1000, source: "google", preference: "nearest"}).catch((e) =>
+  result = await sv.getPanorama({location: pos, radius: 500, source: "google", preference: "nearest"}).catch((e) =>
     getPanoData(), //hacky solution, if pano isn't found, recursively generate new location
   );
   gettingPano = false;
