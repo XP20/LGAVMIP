@@ -70,13 +70,13 @@ async function initialize() {
 async function initGame() {
   score = 0;
   roundCounter = 0;
-  document.getElementById('nextButton').innerText = "Nākošais";
   panoCounter = 1;
   nejausaSekla = getRndInteger(1, 2147483647);
-  setElementHidden('GoToEndButton');
-  setElementVisible('nextButton');
   pano = await getPanoData(); //get initial location
   doPanorama();
+  document.getElementById('nextButton').innerText = "Nākošais";
+  setElementHidden('GoToEndButton');
+  setElementVisible('nextButton');
 }
 
 async function ajaxEndscreenTest(params) { //somehow this function seems to work if called from within JS but not if triggered on click of a button, then the endscreen.js errors out
@@ -105,10 +105,10 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function nextButton(params) {
-  if (roundCounter!=5) {
-    doPanorama();
-  } else initGame();
+function nextButton() {
+  if (roundCounter==5) {
+    initGame();
+  } else doPanorama();
 }
 async function doPanorama() {
  if (gettingPano) {
@@ -148,7 +148,6 @@ async function Submit() {
   score += await computeScore();
   if (roundCounter < 4) {
     document.getElementById('score').innerHTML = `Punktu Skaits: ${score}`;
-    roundCounter+=1;
   } else {
     roundFinalScore = score;
     document.getElementById('score').innerHTML = `Punktu Skaits: 0`;
@@ -156,6 +155,7 @@ async function Submit() {
     setElementVisible('GoToEndButton');
     document.getElementById('nextButton').innerText = "Mēģināt vēlreiz";
   }
+  roundCounter+=1;
   setElementVisible('results-screen');
   resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
   resultMap.setZoom(7);
