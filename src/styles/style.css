@@ -39,14 +39,13 @@ html,body {
     @apply menu-button bg-green-500 shadow-green-800 text-green-50 hover:bg-green-600 hover:shadow-green-950;
 }
 
-
 .HoveringOverMap:hover .GrowWithMap {
     @apply text-3xl;
 }
 
 .bg-latvia::before {
     content: "";
-    background: url('/public/latvia.svg');
+    background: url('/public/assets/latvia.svg');
     background-size: 100% 100%;
     filter: brightness(60%);
     @apply absolute z-[-1] top-0 left-0 h-full w-full opacity-80;
