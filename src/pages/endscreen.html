@@ -7,15 +7,13 @@
         <link href="https://fonts.googleapis.com/css2?family=Honk&family=Nabla:EHLT@0&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Honk&family=Jersey+10&family=Nabla:EHLT@0&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/public/main.css" />
-        <script src="public/js/endscreen.js"></script>
     </head>
-<body class="overflow-hidden">
-    <!-- change this later, maybe -->
+<body id="main" class="overflow-hidden">
     <div class="flex flex-col w-full h-full max-h-screen min-h-screen bg-red-950">
         <div class="flex font-bold justify-center text-5xl mt-20 mb-5 text-center text-white font-open-sans">
             SAGLABĀ AUGSTĀKO REZULTĀTU
         </div>
-        <div class="flex justify-center text-3xl text-center text-white font-open-sans">
+        <div id='finalResult' class="flex justify-center text-3xl text-center text-white font-open-sans">
             Rezultāts: placeholder
         </div>
         <canvas id="inputs" class="mt-48" width="2048" height="2048"></canvas>
@@ -24,9 +22,9 @@
                 IESNIEGT
             </button>
             <div id="buttons" class="hidden flex">
-                <a href="/start" class="flex text-8xl mr-20 text-center  bg-red-200 rounded p-4 font-open-sans text-slate-800 transition-all hover:bg-red-300">
+                <button onmouseover="initGame()" onclick="setElementHidden('ajaxScreen')" class="flex text-8xl mr-20 text-center  bg-red-200 rounded p-4 font-open-sans text-slate-800 transition-all hover:bg-red-300">
                     Mēģini vēlreiz
-                </a>
+                </button>
                 <a href="/" class="flex text-8xl text-center bg-red-200 rounded p-4 font-open-sans text-slate-800 transition-all hover:bg-red-300">
                     Galvenā lapa 
                 </a>
