@@ -19,6 +19,7 @@ let panoCounter = 1; //how many times there has been a request for pano from the
 let nejausaSekla = getRndInteger(1, 2147483647);
 let gamemode;
 let gameStarted = false;
+const parser = new DOMParser();
 
 let PinElementRef = null;
 let AdvancedMarkerElementRef = null;
@@ -80,11 +81,12 @@ async function initGame() {
   setElementVisible('nextButton');
 }
 
-async function ajaxEndscreenTest(params) { //somehow this function seems to work if called from within JS but not if triggered on click of a button, then the endscreen.js errors out
+async function ajaxEndscreenTest() { 
   setElementHidden('results-screen');
   await addScript('/public/js/endscreen.js');
-  testVar = await loadHTML('/public/endscreen2.html');
-  document.getElementById('ajaxScreen').innerHTML = testVar;
+  endscreen = await loadHTML('/result');
+  endscreenInner = parser.parseFromString(endscreen, "text/html").getElementById('main').innerHTML;
+  document.getElementById('ajaxScreen').innerHTML = endscreenInner;
   setElementVisible('ajaxScreen');
   onloadCopy();
   document.getElementById('finalResult').innerText = "Rezultāts: " + roundFinalScore;
