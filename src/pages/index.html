@@ -67,9 +67,9 @@
         </button>
         
         <span id="settingsMenu" class="absolute w-screen h-screen flex justify-center items-center z-20 bg-gray-600 bg-opacity-30 hidden">
-            <div class="flex flex-col w-1/4 h-4/5 bg-gray-200 rounded-3xl shadow-md shadow-black">
-                <div class="flex w-full h-full text-3xl gap-4 mt-10 ml-4">
-                    <img src="/public/assets/sun.svg" class="flex w-10 h-10">
+            <div id="settingsBox" class="flex flex-col w-1/4 h-4/5 bg-gray-200 rounded-3xl shadow-md shadow-black transition-all dark:bg-gray-800 scale-0">
+                <div class="flex w-full h-full text-3xl gap-4 mt-10 ml-4 transition-all dark:text-white">
+                    <img id="darkModeIcon" src="/public/assets/sun.svg" class="flex w-10 h-10">
                     Aktivizēt tumšo režīmu
                     <input id="darkModeButton" type="checkbox" class="size-8" onclick="updateDarkMode()">
                 </div>
