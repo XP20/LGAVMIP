@@ -130,6 +130,7 @@ async function doPanorama() {
   panorama.setZoom(0);
   if (playerMarker != null) playerMarker.setMap(null);
   setElementHidden('results-screen');
+  document.getElementById('result-text').innerText = ' Jūs bijāt Lādē... attālumā no mērķa un ieguvāt Lādē... punku'
   pano = await getPanoData(); //get next panorama data
 
 }
@@ -146,10 +147,11 @@ async function computeScore(){
   }
   const writtenDistance = (distance / (distance > 5000 ? 1000 : 1)).toFixed(2);
   document.getElementById('result-text').innerText = `Jūs bijāt ${writtenDistance}${distance > 5000 ? "km" : 'm'} attālumā no mērķa un ieguvāt ${score} punktu`
-  return score; //handle special cases
+  return score; 
 }
 
 async function Submit() {
+  setElementVisible('results-screen');
   score += await computeScore();
   if (roundCounter < 4) {
     document.getElementById('score').innerHTML = `Punktu Skaits: ${score}`;
@@ -161,7 +163,6 @@ async function Submit() {
     document.getElementById('nextButton').innerText = "Mēģināt vēlreiz";
   }
   roundCounter+=1;
-  setElementVisible('results-screen');
   resultMap.setCenter({ lat: 56.951941,  lng: 24.081368 });
   resultMap.setZoom(7);
    if (playerMarker != null)
