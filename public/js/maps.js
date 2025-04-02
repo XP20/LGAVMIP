@@ -74,7 +74,7 @@ async function initGame() {
   roundCounter = 0;
   panoCounter = 1;
   nejausaSekla = getRndInteger(1, 2147483647);
-  pano = await getPanoData(); //get initial location
+  if (!gameStarted) pano = await getPanoData(); //get initial location
   doPanorama();
   document.getElementById('nextButton').innerText = "Nākošais";
   setElementHidden('GoToEndButton');
@@ -90,6 +90,11 @@ async function ajaxEndscreenTest() {
   setElementVisible('ajaxScreen');
   onloadCopy();
   document.getElementById('finalResult').innerText = "Rezultāts: " + roundFinalScore;
+}
+
+function gamemodePress() {
+  gameStarted = true;
+  setElementHidden('ajaxScreen');
 }
 
 function selectGamemode(id) {
