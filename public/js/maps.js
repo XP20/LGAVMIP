@@ -258,3 +258,11 @@ function processSVLocation(location) {
   panorama.setPano(location.pano);
   panorama.setVisible(true);
 }
+
+//escape screen code, might move to a seperate JS file
+
+document.onkeydown = function(event) { 
+  if (event.key === 'Escape' || event.key === 'Esc') {
+    toggleElementVisibility('escapeScreen')
+  }
+};
