@@ -74,7 +74,7 @@ async function initGame() {
   roundCounter = 0;
   panoCounter = 1;
   nejausaSekla = getRndInteger(1, 2147483647);
-  if (!gameStarted) pano = await getPanoData(); //get initial location
+  pano = await getPanoData(); //get initial location
   doPanorama();
   document.getElementById('nextButton').innerText = "Nākošais";
   setElementHidden('GoToEndButton');
@@ -114,7 +114,6 @@ function nextButton() {
   } else doPanorama();
 }
 async function doPanorama() {
-  gameStarted = true;
  if (gettingPano) {
     await sleep(100);
     doPanorama();
@@ -132,7 +131,6 @@ async function doPanorama() {
   setElementHidden('results-screen');
   document.getElementById('result-text').innerText = ' Jūs bijāt Lādē... attālumā no mērķa un ieguvāt Lādē... punku'
   pano = await getPanoData(); //get next panorama data
-
 }
 
 async function computeScore(){
