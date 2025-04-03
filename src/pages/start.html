@@ -10,6 +10,7 @@
     <script src="/public/js/DOMination.js"></script>
     <script src="/public/js/coordinateFinder.js"></script>
     <script src="/public/js/maps.js"></script>
+    <script src="/public/js/settings.js"></script>
   </head>
   <body class="w-screen h-screen">
     <span id="game" class="flex justify-center w-full h-full rounded-2xl">
@@ -37,8 +38,24 @@
         atkļūdošās lokācijas ģenerātors
       </button>
     </span>
-    <span id="escapeScreen" class="flex w-screen h-screen absolute overflow-hidden bg-green-950 bg-opacity-40 z-50 hidden">
 
+    <span id="escapeScreen" class="flex w-screen h-screen absolute overflow-hidden bg-translucent z-50 items-center justify-center hidden">
+      <div id="settingsBox" class="flex flex-col w-1/4 h-4/5 bg-gray-200 rounded-3xl shadow-md shadow-black transition-all lgavmip-autodarkmode">
+        <div class="flex w-full h-full justify-center text-3xl">
+          Pauziņš
+        </div>
+        <div class="flex w-full h-full text-3xl gap-4 mt-10 ml-4 transition-all">
+            <img id="darkModeIcon" src="/public/assets/sun.svg" class="flex w-10 h-10">
+            Aktivizēt tumšo režīmu
+            <input id="darkModeButton" type="checkbox" class="size-8" onclick="updateDarkMode()">
+        </div>
+        <button class="flex w-14 h-14 mx-4 text-center rounded-full bg-red-600 mb-4 p-3" onclick="initGame()">
+            Restartēt
+        </button>
+        <a class="flex w-14 h-14 mx-4 text-center rounded-full bg-red-600 mb-4 p-3" href="/">
+          Uz sākumlapu
+        </a>
+      </div>
     </span>
     <span id="ajaxScreen" class="flex w-screen h-screen bg-green-950 absolute z-50 overflow-hidden">
       

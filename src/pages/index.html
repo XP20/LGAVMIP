@@ -48,7 +48,7 @@
                 >Izmēģināt izstrādātāju versiju!</a>
             </div>
         </span>
-        <span id="leaderboard" class="absolute w-screen h-screen flex justify-center items-center bg-slate-800 bg-opacity-60 z-20 hidden">
+        <span id="leaderboard" class="absolute w-screen h-screen flex justify-center items-center bg-translucent z-20 hidden">
             <span class="flex flex-col min-w-96 w-2/6 h-4/5 border-4 p-6 border-slate-800 bg-white rounded-2xl lgavmip-autodarkmode text-center gap-4">
                 <span class="text-3xl font-bold">
                     Āpši
@@ -67,9 +67,9 @@
             <img src="/public/assets/gear.svg">
         </button>
         
-        <span id="settingsMenu" class="absolute w-screen h-screen flex justify-center items-center z-20 bg-gray-600 bg-opacity-30 hidden">
-            <div id="settingsBox" class="flex flex-col w-1/4 h-4/5 bg-gray-200 rounded-3xl shadow-md shadow-black transition-all dark:bg-gray-800 scale-0">
-                <div class="flex w-full h-full text-3xl gap-4 mt-10 ml-4 transition-all dark:text-white">
+        <span id="settingsMenu" class="absolute w-screen h-screen flex justify-center items-center z-20 bg-translucent hidden">
+            <div id="settingsBox" class="flex flex-col w-1/4 h-4/5 bg-gray-200 rounded-3xl shadow-md shadow-black transition-all lgavmip-autodarkmode scale-0">
+                <div class="flex w-full h-full text-3xl gap-4 mt-10 ml-4 transition-all">
                     <img id="darkModeIcon" src="/public/assets/sun.svg" class="flex w-10 h-10">
                     Aktivizēt tumšo režīmu
                     <input id="darkModeButton" type="checkbox" class="size-8" onclick="updateDarkMode()">

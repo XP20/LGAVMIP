@@ -43,6 +43,10 @@ html,body {
     @apply text-3xl;
 }
 
+.bg-translucent {
+    @apply bg-slate-800 bg-opacity-60
+}
+
 .bg-latvia::before {
     content: "";
     background: url('/public/assets/latvia.svg');

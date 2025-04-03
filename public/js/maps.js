@@ -70,7 +70,7 @@ async function initialize() {
 }
 
 async function initGame() {
-  score = 0;
+  setScore(0);
   roundCounter = 0;
   panoCounter = 1;
   nejausaSekla = getRndInteger(1, 2147483647);
@@ -79,6 +79,13 @@ async function initGame() {
   document.getElementById('nextButton').innerText = "Nākošais";
   setElementHidden('GoToEndButton');
   setElementVisible('nextButton');
+}
+
+
+//TODO implement this everywhere the score is changed
+async function setScore(scoreIn){
+  score = scoreIn;
+  document.getElementById('score').innerHTML = `Punktu Skaits: ${score}`;
 }
 
 async function ajaxEndscreenTest() { 
