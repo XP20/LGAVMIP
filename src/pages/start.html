@@ -23,6 +23,7 @@
       <div id="map-blur" class="absolute block left-4 top-4 w-1/5 min-w-40 h-2/6 backdrop-blur-md z-[9] rounded-xl"></div>
       <div id="debugMap" class="hidden absolute top-0 right-0 w-3/5 h-4/6 z-10"></div>
       <div id="pano" class="w-full h-full"></div>
+      <div id="NMPZ" class="absolute top-0 right-0 w-full h-full z-[1] hidden"></div>
       <div id="score" class="absolute right-10 top-4 z-10 p-1 rounded-xl text-3xl font-bold font-honk bg-latvia overflow-hidden">
         Punktu Skaits: 0
       </div>
@@ -36,6 +37,10 @@
       </button>
       <button id="debugButton" class="hidden absolute bottom-48 left-6 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="doPanorama()">
         atkļūdošās lokācijas ģenerātors
+      </button>
+      <button id="NMPZButton" class="hidden bottom-48 left-6 shadow-red-950 shadow-md absolute z-10 bg-red-900 px-1 py-3 rounded-md text-xl text-white font-open-sans font-bold
+      transition-all hover:shadow-lg hover:shadow-blue-950 hover:scale-110 delay-0 duration-300" onclick="goNMPZ()">
+        Aktivizēt NMPZ
       </button>
     </span>
 

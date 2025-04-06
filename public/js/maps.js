@@ -26,7 +26,7 @@ let AdvancedMarkerElementRef = null;
 
 async function initialize() {
   let urlParams = new URLSearchParams(window.location.search);
-  if ((urlParams.get('mode')=='redpill' || window.location.href.includes('localhost')) && !(urlParams.get('mode')=='prod') && !redpill) initUnfinishedOrDebugFeatures(); //check if running in dev or prod environment
+  if (urlParams.get('mode')=='redpill' && !redpill) initUnfinishedOrDebugFeatures();
   document.getElementById('ajaxScreen').innerHTML = await loadHTML('/gamemodes'); //gamemode selector screen, this is jank
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
   PinElementRef = PinElement;
@@ -64,9 +64,21 @@ async function initialize() {
       enableCloseButton: false,
       fullscreenControl: false,
       zoomControl: false,
-      showRoadLabels: false
+      showRoadLabels: false,
+      motionTracking: false, 
+      //set below params to false for no move
+      clickToGo: true,
+      linksControl: true, 
+      //and invert these too for no zooming, idk how geoguessr disables panning tho, easiest might just be to make a transparent html element above the panorama, also none of this can be changed on the fly without a hard/full reinitialization of the panorama
+      disableDoubleClickZoom: false,
+      scrollwheel: true,
     },
   );
+}
+
+async function goNMPZ() {
+  setElementHidden('returnButton');
+  setElementVisible('NMPZ');
 }
 
 async function initGame() {
@@ -114,6 +126,7 @@ function selectGamemode(id) {
 async function initUnfinishedOrDebugFeatures(params) {
   redpill = true;
   setElementVisible('debugMapEnablerButton');
+  setElementVisible('NMPZButton');
 }
 
 function sleep(ms) {
@@ -266,6 +279,7 @@ async function getPanoData() {
 
 function processSVLocation(location) {
   panorama.setPano(location.pano);
+  panorama.setPov({heading: getRndInteger(0, 359), pitch: 0});
   panorama.setVisible(true);
 }
 
