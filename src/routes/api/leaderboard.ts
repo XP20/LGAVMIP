@@ -10,7 +10,17 @@ const apiLeaderboard = new Hono()
         const { from, limit, reversed } = body;
         const entries = (await Database.db.select().from(leaderboard));
         const filtered_entries = entries.slice(from, from + limit);
-        return c.json(reversed ? entries.reverse() : entries);
+        return c.json(reversed ? entries : entries.reverse());
+    })
+    .post('/insert', async (c) => {
+        const body = await c.req.json();
+        let { username, score } = body;
+        score = parseInt(score);
+        if (score>5000 || score<0) {
+            username = 'Klauns';
+            score = -2147483648;
+        }
+        await Database.db.insert(leaderboard).values({username:username, score:parseInt(score)});
     });
 
 

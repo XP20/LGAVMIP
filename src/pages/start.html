@@ -1,19 +1,19 @@
 <html class="w-screen h-screen">
   <head>
     <title>99% spēlētāju beidz spēlēt pirms lielā laimesta</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Honk&family=Nabla:EHLT@0&display=swap" rel="stylesheet">
-
-
+    <link href="https://fonts.googleapis.com/css2?family=Honk&family=Jersey+10&family=Nabla:EHLT@0&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/public/main.css" />
+    <script src="/public/js/DOMination.js"></script>
     <script src="/public/js/coordinateFinder.js"></script>
     <script src="/public/js/maps.js"></script>
+    <script src="/public/js/settings.js"></script>
   </head>
   <body class="w-screen h-screen">
-    <span class="flex justify-center w-full h-full rounded-2xl">
+    <span id="game" class="flex justify-center w-full h-full rounded-2xl">
       <div id="map-wrapper" class="HoveringOverMap absolute top-4 left-4 min-w-40 w-1/5 h-2/6 opacity-40 z-10">
         <div id="map" class="absolute w-full h-full backdrop-blur z-10 rounded-xl"></div>
         <button class="GrowWithMap absolute right-3 bottom-3 z-20 bg-green-700 px-2 py-1 rounded-md text-lg font-open-sans font-bold text-red-100" onclick="Submit()">
@@ -21,11 +21,9 @@
         </button>
       </div>
       <div id="map-blur" class="absolute block left-4 top-4 w-1/5 min-w-40 h-2/6 backdrop-blur-md z-[9] rounded-xl"></div>
-      <div id="timer" class="hidden absolute right-10 top-16 z-10 border-purple-950 border-[0.5rem] bg-white p-2 rounded-xl text-2xl">
-        Notiek lapas ielāde...
-      </div>
       <div id="debugMap" class="hidden absolute top-0 right-0 w-3/5 h-4/6 z-10"></div>
       <div id="pano" class="w-full h-full"></div>
+      <div id="NMPZ" class="absolute top-0 right-0 w-full h-full z-[1] hidden"></div>
       <div id="score" class="absolute right-10 top-4 z-10 p-1 rounded-xl text-3xl font-bold font-honk bg-latvia overflow-hidden">
         Punktu Skaits: 0
       </div>
@@ -38,9 +36,6 @@
       <button id="returnButton" class="shadow-blue-950 shadow-md absolute bottom-8 left-6 z-10 bg-blue-800 px-1 py-3 rounded-md text-xl text-white font-open-sans font-bold transition-all hover:shadow-lg hover:shadow-blue-950 hover:scale-110 delay-150 duration-300" onclick="processSVLocation(panoLocation)">
         Atgriezties sākuma pozīcijā
       </button>
-      <button id="debugMapEnablerButton" class="hidden absolute bottom-28 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="toggleDebugMap()">
-        Atkļūdošanas karte
-      </button>
       <button id="multiplayerEnableButton" class="hidden absolute bottom-48 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="beginMultiplayer(false)">
         LGAVMIP deathmatch
       </button>
@@ -50,37 +45,63 @@
       </button>
       <button id="multiplayerNewGame" class="hidden absolute bottom-48 left-72 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="beginMultiplayer(true)">
         Izveidot jaunu spēli
+      <button id="returnButton" class="shadow-blue-950 shadow-md absolute bottom-8 left-6 z-10 bg-blue-800 px-1 py-3 rounded-md text-xl text-white font-open-sans font-bold
+       transition-all hover:shadow-lg hover:shadow-blue-950 hover:scale-110 delay-0 duration-300" onclick="processSVLocation(panoLocation)">
+        Atgriezties sākuma pozīcijā
       </button>
-      <button id="debugButton" class="hidden absolute bottom-48 left-4 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="doPanorama()">
+      <button id="debugMapEnablerButton" class="hidden bottom-28 left-6 shadow-red-950 shadow-md absolute z-10 bg-red-900 px-1 py-3 rounded-md text-xl text-white font-open-sans font-bold
+      transition-all hover:shadow-lg hover:shadow-blue-950 hover:scale-110 delay-0 duration-300" onclick="toggleDebugMap()">
+        Izstrādātāju opcijas
+      </button>
+      <button id="debugButton" class="hidden absolute bottom-48 left-6 border-purple-950 border-[0.5rem] z-10 bg-white p-2 rounded-xl text-2xl" onclick="doPanorama()">
         atkļūdošās lokācijas ģenerātors
       </button>
+      <button id="NMPZButton" class="hidden bottom-48 left-6 shadow-red-950 shadow-md absolute z-10 bg-red-900 px-1 py-3 rounded-md text-xl text-white font-open-sans font-bold
+      transition-all hover:shadow-lg hover:shadow-blue-950 hover:scale-110 delay-0 duration-300" onclick="goNMPZ()">
+        Aktivizēt NMPZ
+      </button>
     </span>
-    <span id="results-screen" class="flex flex-col w-screen h-screen bg-white absolute z-50 hidden">
+
+    <span id="escapeScreen" class="flex w-screen h-screen absolute overflow-hidden bg-translucent z-50 items-center justify-center hidden">
+      <div id="settingsBox" class="flex flex-col w-1/4 h-4/5 bg-gray-200 rounded-3xl shadow-md shadow-black transition-all lgavmip-autodarkmode">
+        <div class="flex w-full h-full justify-center text-3xl">
+          Pauziņš
+        </div>
+        <div class="flex w-full h-full text-3xl gap-4 mt-10 ml-4 transition-all">
+            <img id="darkModeIcon" src="/public/assets/sun.svg" class="flex w-10 h-10">
+            Aktivizēt tumšo režīmu
+            <input id="darkModeButton" type="checkbox" class="size-8" onclick="updateDarkMode()">
+        </div>
+        <button class="flex w-14 h-14 mx-4 text-center rounded-full bg-red-600 mb-4 p-3" onclick="initGame()">
+            Restartēt
+        </button>
+        <a class="flex w-14 h-14 mx-4 text-center rounded-full bg-red-600 mb-4 p-3" href="/">
+          Uz sākumlapu
+        </a>
+      </div>
+    </span>
+    <span id="ajaxScreen" class="flex w-screen h-screen bg-green-950 absolute z-50 overflow-hidden">
+      
+    </span>
+    <span id="results-screen" class="flex flex-col w-screen h-screen bg-white lgavmip-autodarkmode absolute z-50 hidden">
       <div class="mx-auto mt-5 mb-auto text-4xl font-open-sans font-bold">
         Rezultāti
       </div>
       <div id="result-text" class="flex w-auto h-auto justify-center text-nowrap mx-60 my-5 font-open-sans text-3xl text-center">
-        tekstiņš
+        Jūs bijāt Lādē... attālumā no mērķa un ieguvāt Lādē... punku
       </div>
       <span class="w-full h-full px-14 py-4">
         <div id="results-map" class="w-full h-full rounded-xl"></div>
       </span>
       <span class="ml-auto mr-20 mb-8">
-        <a id="GoToEndButton" href="/result" class="hidden border-2 border-red-950 bg-red-200 px-2 py-0.5 rounded-xl text-4xl font-open-sans font-bold text-red-900">Tālāk</a>
-        <button id="nextButton" class="border-2 border-pink-950 bg-pink-200 px-2 py-0.5 rounded-xl text-4xl font-open-sans font-bold text-pink-900" onclick="doPanorama()">
+        <button id="GoToEndButton" onclick="ajaxEndscreenTest()" class="hidden border-2 border-red-950 bg-red-200 px-2 py-0.5 rounded-xl text-4xl font-open-sans font-bold text-red-900">Saglabāt</button>
+        <button id="nextButton" class="border-2 border-pink-950 bg-pink-200 px-2 py-0.5 rounded-xl text-4xl font-open-sans font-bold text-pink-900" onclick="nextButton()">
         Nākošais
         </button>
       </span>
     </span>
-    <!-- 
-      The `defer` attribute causes the script to execute after the full HTML
-      document has been parsed. For non-blocking uses, avoiding race conditions,
-      and consistent behavior across browsers, consider loading using Promises. See
-      https://developers.google.com/maps/documentation/javascript/load-maps-js-api
-      for more information.
-      -->
     <script async
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNVC-vILLbuJ8EmTVFHYHL7fSM-CVmBZo&callback=initialize&v=weekly&loading=async"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNVC-vILLbuJ8EmTVFHYHL7fSM-CVmBZo&v=3.59&loading=async&callback=initialize"
     ></script>
   </body>
 </html>

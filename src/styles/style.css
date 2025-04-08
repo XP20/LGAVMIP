@@ -23,18 +23,66 @@ html,body {
     @apply transition-all delay-150 duration-500;
 }
 
+.menu-button {
+    @apply px-2 py-1 rounded text-3xl font-open-sans font-bold shadow-sm text-center transition-all delay-0 duration-300  hover:scale-105 hover:bg-opacity-100 hover:shadow-lg bg-opacity-80;
+}
+
+.game-mode-button-yellow {
+    @apply menu-button bg-yellow-500 shadow-yellow-800 text-yellow-50 hover:bg-yellow-600 hover:shadow-yellow-950;
+}
+
+.game-mode-button-red {
+    @apply menu-button bg-red-500 shadow-red-800 text-red-50 hover:bg-red-600 hover:shadow-red-950;
+}
+
+.game-mode-button-green {
+    @apply menu-button bg-green-500 shadow-green-800 text-green-50 hover:bg-green-600 hover:shadow-green-950;
+}
+
 .HoveringOverMap:hover .GrowWithMap {
     @apply text-3xl;
 }
 
+.bg-translucent {
+    @apply bg-slate-800 bg-opacity-60
+}
+
 .bg-latvia::before {
     content: "";
-    background: url('/public/latvia.svg');
+    background: url('/public/assets/latvia.svg');
     background-size: 100% 100%;
     filter: brightness(60%);
     @apply absolute z-[-1] top-0 left-0 h-full w-full opacity-80;
 }
 
 #inputs > input {
-    @apply border-b-4 border-black text-6xl w-16 text-center uppercase mx-2 mb-80;
+    @apply border-b-4 border-black text-6xl w-16 text-center uppercase mx-2 outline-0;
+}
+
+.animate-blinking {
+    animation: blinking 0.5s steps(1, end) infinite;
+}
+
+.lgavmip-autodarkmode {
+    @apply dark:bg-slate-800 dark:text-white
+}
+
+.no-clicky {
+    pointer-events: none;
+}
+
+@keyframes blinking {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+@layer utilities {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+   /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+  }
 }

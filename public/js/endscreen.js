@@ -1,45 +1,82 @@
-let WrittenName = ""
+const keyGap = 20;
+const [keyWidth, keyHeight] = [80, 10];
+const fontSize = 80;
+const keyCount = 10;
+
+let writtenName = "";
+let canvas;
 
 window.onload = () => {
-    const inputs = document.getElementById("inputs");
-    
-    for (const input of inputs.getElementsByTagName("input")) {
-        input.addEventListener("input", function (e) {
-            const target = e.target;
-            const val = target.value;
-        
-            if (val != "") {
-                const next = target.nextElementSibling;
-                if (next) next.focus();
-                if (val == ' ') {
-                    target.value = '';
-                }
-            }
+    canvas = document.getElementById('inputs');
+    canvas.style.width = '100%';
+    canvas.style.height = 'auto';
+    redraw();
+}
 
-        });
+function onloadCopy(params) {
+    canvas = document.getElementById('inputs');
+    canvas.style.width = '100%';
+    canvas.style.height = 'auto';
+    redraw();
+}
 
-        input.addEventListener('keydown', function (e) {
-            const key = e.key;
-            if (key === "Backspace" || key === "Delete") {
-                const curr = document.activeElement;
-                const prev = curr.previousElementSibling;
-                if (curr) curr.value = '';
-                if (prev) prev.focus();
-                e.preventDefault();
-            }
-        });
+document.onkeyup = event => {
+    const isValidChar = event.key.match(/^[a-zA-Z\!\?\*\-\+\$\%\&\#\@0-9]$/);
+    if (isValidChar) {
+        // Add key
+        if (writtenName.length < keyCount) {
+            writtenName += event.key;
+            redraw();
+        }
+    } else if (event.key === "Backspace" || event.key === "Delete") {
+        // Delete key
+        if (writtenName.length > 0) {
+            writtenName = writtenName.slice(0, -1);
+            redraw();
+        }
+    }
+    // TODO: Arrow keys and cursor
+};
+
+function redraw() {
+    const ctx = canvas.getContext('2d');
+    console.log(ctx);
+    const { width, height } = canvas;
+    let wasInput = false;
+    //ctx.reset();
+    ctx.clearRect(0, 0, canvas.width, canvas.height); //Goanna/old browser compat
+    ctx.font = `${fontSize}px "Open Sans"`;
+    ctx.fillStyle = "white";
+    for (let i = 0; i < keyCount; i++) {
+        const char = i < writtenName.length ? writtenName[i] : '';
+        const middle = width/2;
+        const widthAllKeys = keyGap*(keyCount-1) + keyWidth*keyCount;
+        const start = middle - widthAllKeys/2;
+        const offset = i*keyWidth + i*keyGap;
+        ctx.fillRect(start + offset, fontSize, keyWidth, keyHeight);
+        if (char) {
+            wasInput = true;
+            const charWidth = ctx.measureText(char.toUpperCase()).width;
+            const charOffset = keyWidth / 2 - charWidth / 2;
+            ctx.fillText(char.toUpperCase(), start + offset + charOffset, fontSize - keyGap, keyWidth);
+        }
+    }
+    const btn = document.getElementById("SubmitToLeaderboard");
+    if (btn && document.getElementById("inputs").classList.contains("hidden") == false) {
+        if (wasInput) {
+            btn.classList.remove('hidden');
+        } else {
+            btn.classList.add('hidden');
+        }
     }
 }
 
-function SubmitName() {
-    WrittenName = ""
-    const inputs = document.getElementById("inputs");
-
-    for (const input of inputs.getElementsByTagName("input")) {
-        if (input.value == "") input.value = " ";
-        WrittenName = WrittenName + input.value;
-    };
-    console.log(WrittenName);
-    inputs.classList.add("hidden");
-    document.getElementById("buttons").classList.remove('hidden');
-};
+async function SubmitName() {
+    setElementHidden("inputs");
+    setElementHidden("SubmitToLeaderboard");
+    setElementVisible("buttons")
+    const res = await fetch('/api/leaderboard/insert', {
+        method: "POST",
+        body: JSON.stringify({username:writtenName, score:roundFinalScore})
+      });
+}

@@ -1,0 +1,53 @@
+<span class="grid items-center justify-center grid-cols-3 w-full m-auto mt-0 h-full z-10">
+    <template id="buttonTemplate">
+        <div class="w-full flex justify-center h-auto">
+            <button
+                onmouseover="selectGamemode(gamemode)"
+                onclick="gamemodePress()"
+                class="game-mode-button-red" 
+            ></button>
+        </div>
+    </template>
+    <div class="w-full flex justify-center h-auto">
+        <button
+            onmouseover="selectGamemode(1)"
+            onclick="gamemodePress()"
+            class="game-mode-button-red" 
+        >Rīga</button>
+    </div>
+    <div class="w-full flex justify-center h-auto">
+        <button
+            onmouseover="selectGamemode(2)"
+            onclick="gamemodePress()"
+            class="game-mode-button-green" 
+        >Jūrmala</button>
+    </div>
+    <div class="w-full flex justify-center h-auto">
+        <button
+            onmouseover="selectGamemode(0)"
+            onclick="gamemodePress()"
+            class="game-mode-button-yellow" 
+        >Dobele</button>
+    </div>
+    <div class="w-full flex justify-center h-auto">
+        <button
+            onmouseover="selectGamemode(4)"
+            onclick="gamemodePress()"
+            class="game-mode-button-red" 
+        >Valmiera</button>
+    </div>
+    <div class="w-full flex justify-center h-auto">
+        <button
+            onmouseover="selectGamemode(3)"
+            onclick="gamemodePress()"
+            class="game-mode-button-green" 
+        >Latvija</button>
+    </div>
+    <div class="w-full flex justify-center h-auto">
+        <button
+            onmouseover="selectGamemode(5)"
+            onclick="gamemodePress()"
+            class="game-mode-button-yellow" 
+        >Centrs</button>
+    </div>
+</span>
