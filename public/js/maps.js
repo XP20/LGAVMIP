@@ -128,11 +128,10 @@ function selectGamemode(id) {
 
 async function initUnfinishedOrDebugFeatures(params) {
   redpill = true;
-  beginTimer();
   document.getElementById('multiplayerEnableButton').classList.remove('hidden');
   document.getElementById('debugMapEnablerButton').classList.remove('hidden');
   setElementVisible('debugMapEnablerButton');
-  setElementVisible('NMPZButton');
+  //setElementVisible('NMPZButton');
 }
 
 async function getIDFromBackend() {
