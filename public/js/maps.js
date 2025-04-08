@@ -72,6 +72,7 @@ async function initialize() {
       //and invert these too for no zooming, idk how geoguessr disables panning tho, easiest might just be to make a transparent html element above the panorama, also none of this can be changed on the fly without a hard/full reinitialization of the panorama
       disableDoubleClickZoom: false,
       scrollwheel: true,
+      focus: false,
     },
   );
 }

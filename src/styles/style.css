@@ -67,6 +67,10 @@ html,body {
     @apply dark:bg-slate-800 dark:text-white
 }
 
+.no-clicky {
+    pointer-events: none;
+}
+
 @keyframes blinking {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
