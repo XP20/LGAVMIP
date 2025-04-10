@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import apiLeaderboard from "./api/leaderboard";
 import apiScore from "./api/computeScore";
 import apiLocation from "./api/location";
-import apiMP from "./api/MIS2"
+import apiMP from "./api/MIS2";
 import apiKML from "./api/customGamemode";
 
 
