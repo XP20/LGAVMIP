@@ -82,12 +82,13 @@ async function goNMPZ() {
   setElementVisible('NMPZ');
 }
 
-async function initGame() {
+async function initGame(seed) {
   setScore(0);
   roundCounter = 0;
   panoCounter = 1;
-  nejausaSekla = getRndInteger(1, 2147483647);
-  if (!gameStarted) pano = await getPanoData(); //get initial location
+  if (!seed){nejausaSekla = getRndInteger(1, 2147483647)}
+  else nejausaSekla = seed;
+  if (!gameStarted || seed) pano = await getPanoData(); //get initial location
   doPanorama();
   document.getElementById('nextButton').innerText = "Nākošais";
   setElementHidden('GoToEndButton');
