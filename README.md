@@ -11,6 +11,7 @@ Latvijas Ģeogrāfiskās Atrašanās Vietas Minēšanas Informātikas Projekts
 `bun test`
 
 #### Instalēt un palaist integrācijas testus:
+`bun run dev`
 `pytest test.py`
 
 ---
