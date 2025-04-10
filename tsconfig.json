@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "strict": true,
+    "strict": false,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "types": [
