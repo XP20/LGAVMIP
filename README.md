@@ -3,6 +3,18 @@ Latvijas Ģeogrāfiskās Atrašanās Vietas Minēšanas Informātikas Projekts
 
 ---
 
+#### Instalēt un palaist projektu:
+`bun i`
+`bun run dev --open`
+
+#### Palaist unit testus:
+`bun test`
+
+#### Instalēt un palaist integrācijas testus:
+`pytest test.py`
+
+---
+
 ### Projekta "Programmatūras prasību specifikācija un izstrādes plāns" (16.12.2024 atjauninātā versija)
 https://docs.google.com/document/d/1mYGek4Qedw6ZNOUMGR09Zu7YD_mrPq3Sac_xmqPlq5w/edit?usp=sharing
 
