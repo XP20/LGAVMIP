@@ -15,9 +15,9 @@
         <script src="/public/js/index.js"></script>
         <script src="/public//js/settings.js"></script>
         <script src="/public/js/DOMination.js"></script>
-        
+
     </head>
-    
+
     <body>
         <div class="absolute top-0 left-0 w-screen h-screen z-0 overflow-hidden">
             <img src="/public/assets/bg.avif" onerror="this.src = '/public/assets/bg1.jpg'" class="w-full h-full object-cover">
@@ -29,15 +29,17 @@
         <span class="flex flex-col w-1/2 m-auto mt-0 h-full items-center justify-center gap-2 pt-[3%] z-10 overflow-hidden">
             <div class="w-1/2 min-w-64 h-auto pb-[1%]">
                 <a
+                    data-testid="start"
                     href="/start"
-                    class="block bg-green-600 bg-opacity-80 px-2 py-1 rounded text-3xl font-open-sans font-bold shadow-green-800 shadow-sm text-center text-green-100 
+                    class="block bg-green-600 bg-opacity-80 px-2 py-1 rounded text-3xl font-open-sans font-bold shadow-green-800 shadow-sm text-center text-green-100
                         transition-all delay-0 duration-300 hover:bg-green-800  hover:scale-105 hover:bg-opacity-100 hover:shadow-lg hover:shadow-green-950 active:bg-green-900"
                 >Sākt</a>
             </div>
             <div class="w-1/2 min-w-64 h-auto pb-[1%]">
                 <button
+                    data-testid="leaderboard"
                     onclick="openLeaderboard()"
-                    class="game-mode-button-yellow w-full" 
+                    class="game-mode-button-yellow w-full"
                 >Līderu Saraksts</button>
             </div>
             <div class="w-1/2 min-w-64 h-auto pb-[1%]">
@@ -59,14 +61,14 @@
                 <button class="border-4 px-2 rounded-xl border-red-800 bg-red-600" onclick="closeLeaderboard()">Iziet</button>
             </span>
         </span>
-        
-        <!-- 
-        settings 
+
+        <!--
+        settings
         -->
         <button class="flex absolute w-16 h-16 bg-gray-600 z-20 bottom-10 left-10 rounded-2xl" onclick="openSettings()">
             <img src="/public/assets/gear.svg">
         </button>
-        
+
         <span id="settingsMenu" class="absolute w-screen h-screen flex justify-center items-center z-20 bg-translucent hidden">
             <div id="settingsBox" class="flex flex-col w-1/4 h-4/5 bg-gray-200 rounded-3xl shadow-md shadow-black transition-all lgavmip-autodarkmode scale-0">
                 <div class="flex w-full h-full text-3xl gap-4 mt-10 ml-4 transition-all">
