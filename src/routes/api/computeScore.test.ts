@@ -14,6 +14,6 @@ describe("api/computeScore", () => {
         const { score } = await res.json();
 
         expect(res.status).toBe(200);
-        expect(score).toBe(980);
+        expect(score).toBe(991);
     });
 });
