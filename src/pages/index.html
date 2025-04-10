@@ -58,14 +58,14 @@
                 <span id="leaderboard-list" class="overflow-y-scroll no-scrollbar flex-1 flex flex-col"></span>
                 <button class="border-4 px-2 rounded-xl border-green-800 bg-green-600" onclick="getLeaderboard(10, false)">Uz augšu</button>
                 <button class="border-4 px-2 rounded-xl border-yellow-700 bg-yellow-600" onclick="getLeaderboard(10, true)">Uz apakšu</button>
-                <button class="border-4 px-2 rounded-xl border-red-800 bg-red-600" onclick="closeLeaderboard()">Iziet</button>
+                <button data-testid="leaderboard-close" class="border-4 px-2 rounded-xl border-red-800 bg-red-600" onclick="closeLeaderboard()">Iziet</button>
             </span>
         </span>
 
         <!--
         settings
         -->
-        <button class="flex absolute w-16 h-16 bg-gray-600 z-20 bottom-10 left-10 rounded-2xl" onclick="openSettings()">
+        <button data-testid="settings" class="flex absolute w-16 h-16 bg-gray-600 z-20 bottom-10 left-10 rounded-2xl" onclick="openSettings()">
             <img src="/public/assets/gear.svg">
         </button>
 
