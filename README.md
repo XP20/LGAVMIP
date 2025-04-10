@@ -5,6 +5,7 @@ Latvijas Ģeogrāfiskās Atrašanās Vietas Minēšanas Informātikas Projekts
 
 #### Instalēt un palaist projektu:
 `bun i`
+
 `bun run dev --open`
 
 #### Palaist unit testus:
@@ -12,6 +13,7 @@ Latvijas Ģeogrāfiskās Atrašanās Vietas Minēšanas Informātikas Projekts
 
 #### Instalēt un palaist integrācijas testus:
 `bun run dev`
+
 `pytest test.py`
 
 ---
