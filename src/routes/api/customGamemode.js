@@ -10,7 +10,7 @@ const apiKML = new Hono();
 
 const parseXMLString = promisify(parseString);
 
-async function parseKMLPolygonCoordinates(kmlString) {
+export async function parseKMLPolygonCoordinates(kmlString) {
   try {
     const result = await parseXMLString(kmlString);
     // Navigate through the parsed object structure to find coordinates

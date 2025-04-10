@@ -16,15 +16,15 @@ let presetGames = []
 let locationCount = 100000;
 export let presetLocationStore = []
 
-function getRndInteger(min, max) {
+export function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-function getNextInt(lastInt, max) { //very simple PRNG for repeatable seeds, does not need to be cryptographically secure
+export function getNextInt(lastInt, max) { //very simple PRNG for repeatable seeds, does not need to be cryptographically secure
     return (2*lastInt % (max-1)) + 1 ;
 }
 
-function getSeededInt(seed, max, roundID) {
+export function getSeededInt(seed, max, roundID) {
     let seedValue = seed;
     console.log('nejauša sēkla: ' + seedValue)
     for (let index = 1; index < roundID; index++) {
@@ -34,7 +34,7 @@ function getSeededInt(seed, max, roundID) {
     return seedValue;
 }
 
-function getCoords(game){
+export function getCoords(game){
     let coords;
     do {
         coords = getLatviaBox(game[1]);
@@ -42,14 +42,14 @@ function getCoords(game){
     return coords;
 }
 
-function getLatviaBox(minMax) { //returns random coordinates in a large box around Latvia, coordinates might not be in Latvia,
+export function getLatviaBox(minMax) { //returns random coordinates in a large box around Latvia, coordinates might not be in Latvia,
     const latitude = parseFloat(getRndInteger(parseInt(minMax[0]*1000000), parseInt(minMax[2]*1000000)))/1000000;
     const longitude = parseFloat(getRndInteger(parseInt(minMax[1]*1000000), parseInt(minMax[3]*1000000)))/1000000;
     const latLongLiteral = {lat: latitude, lng: longitude};
     return latLongLiteral;
 }
 
-function point_in_polygon(point, polygon) {
+export function point_in_polygon(point, polygon) {
     const num_vertices = polygon.length;
     const x = point.lat;
     const y = point.lng;
