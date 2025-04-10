@@ -2,9 +2,10 @@ const { Console } = require('console');
 import { parseString } from 'xml2js';
 import { promisify } from 'util';
 import { Hono } from 'hono';
-import { userLocations } from './locationStorage.js';
+//import { userLocations } from './locationStorage.js';
 import { pregenSingle } from './location.js';
 import { presetLocationStore } from './location.js';
+import { presetGames } from './location.js';
 
 const apiKML = new Hono();
 
@@ -61,10 +62,13 @@ apiKML.post('/', async (c) => {
     const maximumLon = Math.max(...longitudeArr);
     let minMaxArray = [minimumLat, minimumLon, maximumLat, maximumLon];
     let gamemodeArray = [latLngArray, minMaxArray];
+    presetLocationStore[3] = await pregenSingle(gamemodeArray);
+    presetGames[3]= gamemodeArray;
   } catch (error) {
     console.error('Error processing KML file:', error);
     return c.json({ error: 'Failed to process KML file' }, 500);
   }
+  return c.json({ error: 'No exceptions' }, 200);
 });
 
 export default apiKML;

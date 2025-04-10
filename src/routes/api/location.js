@@ -11,7 +11,7 @@ let centrs = [{lng: 24.1244462, lat: 56.9502537}, {lng: 24.1253542, lat: 56.9505
 let polygons = [dobele, riga, jurmala, latvia, valmiera, centrs]; 
 let minMax = [[56.6007687, 23.2536552, 56.6452888, 23.3121823],[56.8573462, 23.9325504, 57.0861068, 24.3245042],[56.9238081, 23.4733924, 57.0087886, 23.970957],[55.6746505, 20.6009852, 58.0855688, 28.2414937],[57.4974929, 25.3746416, 57.5551153, 25.467758], [56.946132, 24.092123, 56.9703943, 24.142679]];
 
-let presetGames = []
+export let presetGames = []
 
 let locationCount = 100000;
 export let presetLocationStore = []
@@ -26,10 +26,10 @@ function getNextInt(lastInt, max) { //very simple PRNG for repeatable seeds, doe
 
 function getSeededInt(seed, max, roundID) {
     let seedValue = seed;
-    console.log('nejauša sēkla: ' + seedValue)
+//    console.log('nejauša sēkla: ' + seedValue)
     for (let index = 1; index < roundID; index++) {
         seedValue = getNextInt(seedValue, max);
-        console.log("In seeded loop, value: " + seedValue);
+//        console.log("In seeded loop, value: " + seedValue);
     }
     return seedValue;
 }
