@@ -25,6 +25,9 @@ Latvijas Ģeogrāfiskās Atrašanās Vietas Minēšanas Informātikas Projekts
 ### Projekta "Programmatūras prasību specifikācija un izstrādes plāns" (16.12.2024 atjauninātā versija)
 https://docs.google.com/document/d/1mYGek4Qedw6ZNOUMGR09Zu7YD_mrPq3Sac_xmqPlq5w/edit?usp=sharing
 
+### Projekta akcepttestu dokumentācija
+https://docs.google.com/document/d/1ID-tA9CPknyrJ2kss3uL3WmHufyNCkfcoxAbzUGyDD0/edit?usp=sharing
+
 ### Mājaslapas priekšskatījums (uptime nav garantēts)
 http://lgavmip.lv
 
