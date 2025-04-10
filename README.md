@@ -14,6 +14,10 @@ Latvijas Ģeogrāfiskās Atrašanās Vietas Minēšanas Informātikas Projekts
 #### Instalēt un palaist integrācijas testus:
 `bun run dev`
 
+`pip install pytest-playwright`
+
+`playwright install`
+
 `pytest test.py`
 
 ---
