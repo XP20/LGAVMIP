@@ -14,6 +14,8 @@ let selectionMap;
 let debugMapEnabled = false;
 let debugMap;
 let gettingPano = false;
+let scaleFactor = 0.25; //default scale factor for potato mode
+let potatoTimeout;
 let redpill = false; //flag to enable unfinished features that break gameplay experience, Windows 8 Beta style
 let panoCounter = 1; //how many times there has been a request for pano from the backend
 let nejausaSekla = getRndInteger(1, 2147483647);
@@ -95,6 +97,20 @@ async function initGame(seed) {
   setElementVisible('nextButton');
 }
 
+async function initPotatoMode() {
+  setResolutionScale();
+  window.addEventListener("resize", () => setResolutionScale());
+}
+
+async function setResolutionScale(scale) { //sets the render scale for only the panorama canvas
+  if (scale) scaleFactor = scale; //override default if needed
+  clearTimeout(potatoTimeout); //avoid rapid-fire changes after a resize event
+  potatoTimeout = setTimeout(() => {
+    const panocanvas = document.getElementById('pano').querySelector('canvas'); //this might break Google TOS
+    panocanvas.width = Math.floor(parseInt(panocanvas.style.width) * scaleFactor);
+    panocanvas.height = Math.floor(parseInt(panocanvas.style.height) * scaleFactor);
+  }, 200);
+}
 
 //TODO implement this everywhere the score is changed
 async function setScore(scoreIn){
