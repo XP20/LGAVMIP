@@ -63,12 +63,27 @@ html,body {
     animation: blinking 0.5s steps(1, end) infinite;
 }
 
+.animate-undulate {
+    animation: undulate 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 .lgavmip-autodarkmode {
     @apply dark:bg-slate-800 dark:text-white
 }
 
 .no-clicky {
     pointer-events: none;
+}
+
+
+@keyframes undulate {
+  0%,
+  100% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: none;
+  }
 }
 
 @keyframes blinking {
