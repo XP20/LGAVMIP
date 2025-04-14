@@ -15,7 +15,12 @@ function getRandomMOTD() {
 
 apiMOTD.get('/', async (c) =>{
     let MOTD = getRandomMOTD();
-    //console.log(MOTD);
-    return c.json({MOTD}, 200);
+    return new Response(MOTD, { //JSON is for the weak
+        headers: {
+            'Content-Type': 'application/octet-stream'
+    }
 })
+}
+)
+
 export default apiMOTD;
