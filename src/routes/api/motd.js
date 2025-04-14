@@ -17,7 +17,7 @@ apiMOTD.get('/', async (c) =>{
     let MOTD = getRandomMOTD();
     return new Response(MOTD, { //JSON is for the weak
         headers: {
-            'Content-Type': 'application/octet-stream'
+            'Content-Type': 'text/html'
     }
 })
 }

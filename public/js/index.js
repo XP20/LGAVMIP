@@ -6,11 +6,6 @@ function closeLeaderboard() {
     document.getElementById('leaderboard').classList.add('hidden');
 }
 
-async function getMOTD() {
-    res = await fetch('/api/motd',{method:'GET'});
-    document.getElementById('motd').innerText = await res.text();
-}
-
 async function getLeaderboard(limit, reversed=false) {
     fetch('/api/leaderboard', {
         method: 'POST',
@@ -38,5 +33,4 @@ async function getLeaderboard(limit, reversed=false) {
         console.error(err);
     });
 }
-getMOTD();
 getLeaderboard(10);

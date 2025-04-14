@@ -9,9 +9,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Honk&family=Nabla:EHLT@0&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Honk&family=Jersey+10&family=Nabla:EHLT@0&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-
+        <link rel="preload" href="/api/motd" as="fetch" crossorigin="anonymous">
         <link rel="stylesheet" href="/public/main.css">
-
         <script src="/public/js/index.js"></script>
         <script src="/public//js/settings.js"></script>
         <script src="/public/js/DOMination.js"></script>
@@ -24,7 +23,10 @@
         </div>
         <span class="flex flex-col w-1/2 m-auto mt-0 h-full items-center justify-center gap-2 pt-[3%] z-10 overflow-hidden">
             <img src="/public/assets/logo.avif" onerror="this.src = '/public/assets/logo.png'" class="h-3/5 max-h-72 object-scale-down mb-[5%]">
-            <div id="motd" class="text-3xl font-open-sans font-bold text-orange-600 animate-undulate">i</div>
+            <div id="motd" class="text-3xl font-open-sans font-bold text-orange-600 animate-undulate">|</div>
+            <script>
+                (async () => document.getElementById('motd').innerText = await (await fetch('/api/motd',{method:'GET'})).text())(); //JSFuck
+            </script>
         </span>
         <span class="flex flex-col w-1/2 m-auto mt-0 h-full items-center justify-center gap-2 pt-[3%] z-10 overflow-hidden">
             <div class="w-1/2 min-w-64 h-auto pb-[1%]">
