@@ -47,6 +47,16 @@ html,body {
     @apply bg-slate-800 bg-opacity-60
 }
 
+.lgavmip-backdrop-blur {
+    @apply bg-gray-400 bg-opacity-70
+}
+
+@supports (backdrop-filter: blur(1px)) {
+    .lgavmip-backdrop-blur {
+        @apply backdrop-blur-md bg-transparent !important;
+    }
+}
+
 .bg-latvia::before {
     content: "";
     background: url('/public/assets/latvia.svg');
