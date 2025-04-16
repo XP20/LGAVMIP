@@ -85,6 +85,16 @@ html,body {
     pointer-events: none;
 }
 
+.font-game {
+    @apply font-open-sans text-yellow-400; /*this is the fallback*/
+}
+
+@supports (font-palette: normal) {
+    .font-game {
+        @apply font-honk !important;
+    }
+}
+
 
 @keyframes undulate {
   0%,

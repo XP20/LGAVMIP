@@ -91,6 +91,7 @@ async function initGame(seed) {
   if (!seed){nejausaSekla = getRndInteger(1, 2147483647)}
   else nejausaSekla = seed;
   if (!gameStarted || seed) pano = await getPanoData(); //get initial location
+  document.getElementById('seed').innerText = 'Nejaušā sēkla: ' + nejausaSekla;
   doPanorama();
   document.getElementById('nextButton').innerText = "Nākošais";
   setElementHidden('GoToEndButton');
