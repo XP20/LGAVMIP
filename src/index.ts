@@ -3,12 +3,15 @@ import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
 import routesPages from './routes/pages';
 import routesApi from './routes/api';
+import { compress } from 'hono-compress'
 
 const PORT = 3000;
 
 
 // Initialize Hono app
 const app = new Hono();
+
+app.use('*', compress());
 
 // Serve public directory
 app.use('/public/*', serveStatic({ root: './' }));

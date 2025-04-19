@@ -10,8 +10,10 @@
   },
   "type": "module",
   "dependencies": {
+    "@mongodb-js/zstd": "1.2.2",
     "drizzle-orm": "^0.35.3",
-    "hono": "^4.5.11",
+    "hono": "^4.7.7",
+    "hono-compress": "^0.7.0",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
@@ -22,5 +24,8 @@
     "postcss": "^8.4.45",
     "postcss-cli": "^11.0.0",
     "tailwindcss": "^3.4.10"
-  }
+  },
+  "trustedDependencies": [
+    "@mongodb-js/zstd"
+  ]
 }
