@@ -21,6 +21,8 @@ let panoCounter = 1; //how many times there has been a request for pano from the
 let nejausaSekla = getRndInteger(1, 2147483647);
 let gamemode;
 let gameStarted = false;
+let NMPZ = false;
+let noMove = false;
 const parser = new DOMParser();
 
 let PinElementRef = null;
@@ -82,6 +84,7 @@ async function initialize() {
 async function goNMPZ() {
   setElementHidden('returnButton');
   setElementVisible('NMPZ');
+  NMPZ=true;
 }
 
 async function initGame(seed) {

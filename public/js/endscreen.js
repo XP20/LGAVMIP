@@ -75,8 +75,9 @@ async function SubmitName() {
     setElementHidden("inputs");
     setElementHidden("SubmitToLeaderboard");
     setElementVisible("buttons")
+    console.log(JSON.stringify({username:writtenName, score:roundFinalScore, gamemode:gamemode, nmpz:NMPZ}));
     const res = await fetch('/api/leaderboard/insert', {
         method: "POST",
-        body: JSON.stringify({username:writtenName, score:roundFinalScore})
+        body: JSON.stringify({username:writtenName, score:roundFinalScore, gamemode:gamemode, nmpz:NMPZ})
       });
 }
